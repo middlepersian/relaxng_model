@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="dictionary.rnc" type="application/relax-ng-compact-syntax"?>
+
+<dictionary taxonomy="link to taxonomy">
+    <entry entryId="e1" stage="inprogress" DOI="doi:10.1000/1">
+        <lemma>lemma</lemma>
+        <!-- synopsis: values taken from  hierarchizedMeanings below -->
+            <phoneticVariants>hierarchizedMeanings.semantics.meaningPhoneticVariant</phoneticVariants>
+            <orthography>hierarchizedMeanings.semantics.orthographicVariant</orthography>
+            <morphology>hierarchizedMeanings.semantics.meaningMorphology</morphology>
+       
+        <hierarchizedMeanings>
+            <!-- one or more groups -->
+            <meaninggroup serialId="1" label="gruppe1">
+                <!-- one or more semantics-elements -->
+                <semantics serialId="1">
+                    <!-- all of these must have the same value meaning and semDomain: -->
+                    <occurrences>t2 t3</occurrences>
+                    <!-- any one of the tokens can be taken as reference to extract information on meaning and semDomain: -->
+                    <meaning>token.meaning</meaning>
+                    <semanticDomain>token.domain</semanticDomain>
+                    <!-- variants in other features -->
+                    <meaningPhoneticVariants>token.transcriptions (usually 1)</meaningPhoneticVariants>
+                    <orthographicVariants>token.transliterations (usually 2)</orthographicVariants>
+                    <meaningMorphology>token.morphologicalAnnotation.pos (usually 1)</meaningMorphology>
+                    <!-- selected ex. from corpus -->
+                    <example sentenceId="sentId1"/>
+                    <example sentenceId="sentId2"/>
+                    <!-- etc ... -->
+                </semantics>
+            </meaninggroup>
+        </hierarchizedMeanings>        
+        <!-- further information, optional -->
+        <internalReferences>
+            <iRef type="constituent" refId="e1"/>
+            <iRef type="constituent" refId="e2"/>
+            <iRef type="synonym" refId="e2"/>
+            <iRef type="antonym" refId="e2"/>
+        </internalReferences>
+        <externalReferences>
+            <eRef refType="AvestanLexeme">
+                <lexeme></lexeme>
+                <bibRef>pointer(s) to bibliography</bibRef>
+            </eRef>            
+            <eRef refType="etymology">
+                <lexeme></lexeme>
+                <bibRef>pointer(s) to bibliography</bibRef>
+                <comment></comment>
+            </eRef>            
+        </externalReferences>        
+        <!-- list of bibRefs to entry -->
+        <bibRef>ref1 ref 2</bibRef>
+        <comment></comment>
+    </entry>
+    <entry entryId="e2" stage="inprogress" DOI="">
+        <lemma>another lemma</lemma>
+        <phoneticVariants>hierarchizedMeanings.semantics.meaningPhoneticVariant</phoneticVariants>
+        <orthography>hierarchizedMeanings.semantics.orthographicVariant</orthography>
+        <morphology>hierarchizedMeanings.semantics.meaningMorphology</morphology>
+        <hierarchizedMeanings>
+            <meaninggroup serialId="1" label="">
+                <semantics serialId="1">
+                    <occurrences>t1 t2</occurrences>
+                    <meaning></meaning>
+                    <semanticDomain></semanticDomain>
+                    <meaningPhoneticVariants>token.transcriptions (usually 1)</meaningPhoneticVariants>
+                    <orthographicVariants>token.transliterations (usually 2)</orthographicVariants>
+                    <meaningMorphology>token.morphologicalAnnotation.pos (usually 1)</meaningMorphology>
+                </semantics>
+            </meaninggroup>
+        </hierarchizedMeanings>
+    </entry>
+</dictionary>

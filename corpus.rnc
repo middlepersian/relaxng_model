@@ -1,0 +1,36 @@
+start = corpus # corpus metadata in TEI header
+
+corpus = element corpus {corpusText+} # corpus consists of texts
+
+corpusText = element corpusText {textMetadata, chapter+} # each text has one or more chapters
+
+textMetadata = element textMetadata {
+    attribute textId {xsd:ID},
+    attribute stage {"untouched"|"inprogress"|"finished"},
+    element sigle {text}, # pointer to textSigle schema
+    element title {text},
+    element creationDate {xsd:date},
+    element editor {list {xsd:string+}},
+    element source {
+        attribute sourceType {"codex"|"edition"},
+        attribute sourceId {xsd:string}
+        }
+    }
+    
+chapter = element chapter { # chapters have sections
+    attribute chapterId {xsd:ID},
+    (element section { # sections have sentences
+        attribute sectionId {xsd:ID},
+        sentence+
+        })+
+    }
+
+sentence = element sentence {
+    attribute sentenceId {xsd:ID},
+    element fullSentence {text} ?, # full sentence (optional, see UD)
+    element translation {text} ?, # translation (optional, see UD)
+    element comment {text} ?, # comment (optional)
+    (element tok { # full token definition in separate schema
+        attribute tokId {xsd:ID}
+        })+ 
+    }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="corpus.rnc" type="application/relax-ng-compact-syntax"?>
+
+<corpus>
+    <corpusText>
+        <textMetadata textId="txt1" stage="inprogress">
+            <sigle>reference to textSigle</sigle>
+            <title>the actual title</title>
+            <creationDate>2021-02-25</creationDate>
+            <editor>KR CN</editor>
+            <source sourceType="codex" sourceId="refToCodexId"/>
+        </textMetadata>
+        <!-- chapter -->
+        <chapter chapterId="txt1_ch1">
+            <!-- section -->
+            <section sectionId="txt1_ch1_sec1">
+                <!-- sentence -->
+                <sentence sentenceId="txt1_ch1_sec1_s1">
+                    <fullSentence>full sentence (optional)</fullSentence>
+                    <translation>translation (optional)</translation>
+                    <comment>free text (optional)</comment>
+                    <tok tokId="txt1_ch1_sec1_s1_t1">
+                        <!-- for tokenSpec see schema-->
+                    </tok>
+                    <tok tokId="txt1_ch1_sec1_s1_t2"></tok>
+                    <tok tokId="txt1_ch1_sec1_s1_t3"></tok>
+                    <!-- etc ... -->
+                </sentence>
+                <!-- another sentence ... -->
+                <sentence sentenceId="txt1_ch1_sec1_s2">
+                    <tok tokId="txt1_ch1_sec1_s2_t1"></tok>
+                </sentence>
+                <!-- etc ... -->
+            </section>
+            <!-- another section ... -->
+            <section sectionId="txt1_ch1_sec2">
+                <sentence sentenceId="txt1_ch1_sec2_s1">
+                    <tok tokId="txt1_ch1_sec2_s1_t1"></tok>
+                </sentence>
+            </section>
+            <!-- etc ... -->
+        </chapter>
+        <!-- another chapter ... -->
+        <chapter chapterId="txt1_ch2">
+            <section sectionId="txt1_ch2_sec1">
+                <sentence sentenceId="txt1_ch2_sec1_s1">
+                    <tok tokId="txt1_ch2_sec1_s1_t1"></tok>
+                </sentence>
+            </section>
+        </chapter>
+    </corpusText>
+    <!-- and another text... -->
+    <corpusText>
+        <textMetadata textId="txt2" stage="untouched">
+            <sigle>reference to textSigle</sigle>
+            <title>Titel</title>
+            <creationDate>2001-02-25</creationDate>
+            <editor>Titus</editor>
+            <source sourceType="edition" sourceId="refToEditionId"></source>
+        </textMetadata>
+        <chapter chapterId="txt2_c1">
+            <section sectionId="txt2_ch1_sec1">
+                <sentence sentenceId="txt2_ch1_sec1_s1">
+                    <tok tokId="txt2_ch1_sec1_s1_t1"></tok>
+                    <tok tokId="txt2_ch1_sec1_s1_t2"></tok>
+                    <tok tokId="txt2_ch1_sec1_s1_t3"></tok>
+                    <!-- etc... -->
+                </sentence>
+                <sentence sentenceId="txt2_ch1_sec1_s2">
+                    <tok tokId="txt2_ch1_sec1_s2_t1"></tok>
+                    <!-- etc... -->
+                </sentence>
+                <!-- etc... -->
+            </section>
+            <!-- etc... -->
+        </chapter>
+        <!-- etc... -->
+    </corpusText>
+    <!-- and another ... -->
+</corpus>

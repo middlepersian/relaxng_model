@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="codex.rnc" type="application/relax-ng-compact-syntax"?>
+
+<codex>
+    <codexMetadata codexId="codex1" stage="inprogress">
+        <title>codex title</title>
+        <copyDate>2021-02-25</copyDate> 
+        <copyPlace>
+            <placeName>somewhere</placeName>
+            <latitude>66.7200</latitude>
+            <longitude>66.7200</longitude>
+        </copyPlace>
+        <scribe>scribe</scribe>
+        <library>name of library holding the copy</library>
+        <signature>signature at library</signature>
+        <facsimile>bibref1 bibref2 bibref3</facsimile>
+    </codexMetadata>
+    <folio first="12" last="256" folioPicture="http://somewhere"/>
+    <textSigleRef>sigle1 sigle7 sigle18</textSigleRef>
+</codex>

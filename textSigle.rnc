@@ -1,0 +1,22 @@
+start = textSigle
+
+textSigle = element textSigle {sigleId, sigleMetadata, corpusTextRef}
+
+sigleId = attribute sigleId {xsd:ID} # unique abbr for texts
+
+sigleMetadata = element sigleMetadata {
+    element author {text} +,
+    element title {text},
+    attribute genre {
+        "zand"
+        | "PT-epitomes"
+        | "PT-reworking"
+        | "theological"
+        | "authorial-th"
+        | "jur"
+        | "andarz"
+        | "narrative"
+        }
+    }
+
+corpusTextRef = element corpusTextRef {list {xsd:string+}} # list of pointers to instances in corpus

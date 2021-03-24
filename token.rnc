@@ -1,0 +1,181 @@
+start = tok # to be included in corpus
+
+tok = element tok {
+    attribute tokId {xsd:int},
+    attribute toDiscuss {xsd:boolean},
+    element UDId {xsd:int}, # UD: ID 
+    element transcription {text, uncertain}, # UD: FORM
+    (element transliteration {text, uncertain} +) ?, # none or more --> move to MISC?
+    element lemma {xsd:string}, # UD: LEMMA
+    annotations?, # UD: morphology and syntax
+    element tokenSemantics {
+        element meaning {xsd:string},
+        element dictRef {xsd:string} ?, # (optional) pointer to lemmaId in dictionary
+        element semanticDomain {xsd:string} ? # pointer to a semantic domain in the taxonomy (= Id or label?), 
+    },
+    element tokenComment {text} # free text "container"
+    }
+
+uncertain = attribute uncertain {xsd:boolean}
+
+annotations = element annotations {
+    element morphologicalAnnotation {producer, morphAnno}+,
+    element syntacticalAnnotation {producer, dependency}+, 
+    MISC? # UD MISC: Any other annotation
+    }
+    
+producer = attribute producer {string "comp" | string "man"} 
+
+# POS: UD-Subset for Pahlavi
+morphAnno = element morphAnno {
+    (element POS {"ADJ"}, element FEATS {adjfeatures+}?)
+    | (element POS {"ADP"}, element FEATS {adpfeatures+}?)
+    | (element POS {"ADV"}, element FEATS {advfeatures+}?)
+    | (element POS {"AUX"}, element FEATS {auxfeatures+}?) 
+    | element POS {"CCONJ"} 
+    | (element POS {"DET"}, element FEATS {detfeatures+}?) 
+    | element POS {"INTJ"} 
+    | (element POS {"NOUN"}, element FEATS {nounfeatures+}?)
+    | (element POS {"NUM"}, element FEATS {numfeatures+}?)
+    | (element POS {"PART"}, element FEATS {partfeatures+}?)
+    | (element POS {"PRON"}, element FEATS {pronfeatures+}?) 
+    | element POS {"PROPN"}
+    | (element POS {"PUNC"}, element FEATS {puncfeatures+}?)
+    | element POS {"SCONJ"}
+    | element POS {"SYM"}
+    | (element POS {"VERB"}, element FEATS {verbfeatures+}?)
+    | (element POS {"X"}, element FEATS {xfeatures+}?)
+    }
+    
+adjfeatures = element feature {
+    attribute NumType {"Ord"|"Mult"}
+    | attribute Poss {"Yes"}
+    | attribute Number {"Sing"|"Plur"}
+    | attribute Case {"Nom"|"Acc"}
+    | attribute Degree {"Cmp"|"Pos"|"Sup"}
+    | attribute VerbForm {"Part"}
+    | attribute Tense {"Past"|"Pres"}
+    | attribute Voice {"Act"|"Pass"|"Cau"}
+    | attribute Polarity {"Neg"}
+    }
+
+adpfeatures = element feature{
+    attribute Pos {"Pre"|"Post"|"Circum"}
+    }
+    
+advfeatures = element feature{
+    attribute PronType {"Dem"|"Ind"|"Int"|"Neg"|"Rel"|"Tot"}
+    | attribute NumType {"Ord"|"Mult"}
+    | attribute Degree {"Cmp"|"Pos"|"Sup"}
+    | attribute VerbForm {"Part"}
+    | attribute Tense {"Past"|"Pres"}
+    | attribute Voice {"Act"|"Pass"|"Cau"}
+    | attribute Polarity {"Neg"}
+    }
+
+auxfeatures = element feature{
+    attribute Copula {"Yes"}
+    | attribute Number {"Sing"|"Plur"}
+    | attribute VerbForm {"Fin"|"Inf"|"Part"}
+    | attribute Mood {"Ind"|"Imp"|"Sub"|"Opt"}
+    | attribute Tense {"Past"|"Pres"}
+    | attribute Voice {"Act"|"Pass"|"Cau"}
+    | attribute Polarity {"Neg"}
+    | attribute Person {"1"|"2"|"3"}
+    | attribute Polite {"Form"}
+    }
+    
+detfeatures = element feature{
+    attribute PronType {"Dem"|"Emp"|"Exc"|"Ind"|"Int"|"Neg"|"Rel"|"Tot"}
+    | attribute NumType {"Ord"|"Mult"}
+    | attribute Reflex {"Yes"}
+    | attribute Poss {"Yes"}
+    | attribute Number {"Sing"|"Plur"}
+    }
+    
+nounfeatures = element feature{
+    attribute Number {"Sing"|"Plur"}
+    | attribute Case {"Nom"|"Acc"}
+    | attribute Definite {"Ind"|"Spec"|"Def"}
+    | attribute VerbForm {"Part"|"Inf"|"Vnoun"}
+    | attribute Tense {"Past"|"Pres"}
+    | attribute Voice {"Act"|"Pass"|"Cau"}
+    | attribute Polarity {"Neg"}
+   }
+
+numfeatures = element feature{
+    attribute PronType {"Dem"|"Ind"|"Int"|"Rel"}
+    | attribute NumType {"Card"|"Frac"|"Sets"}
+    | attribute Number {"Sing"|"Plur"}
+    }
+    
+partfeatures = element feature{
+    attribute PartType {"Verbal"|"Poss"|"Neg"}?
+    }
+    
+pronfeatures = element feature{
+    attribute PronType {"Dem"|"Emp"|"Exc"|"Ind"|"Int"|"Neg"|"Rel"|"Tot"}
+    | attribute Poss {"Yes"}
+    | attribute Reflex {"Yes"}
+    | attribute Number {"Sing"|"Plur"}
+    | attribute Person {"1"|"2"|"3"}
+    | attribute Polite {"Form"}
+    }
+    
+puncfeatures = element feature{
+    attribute Type {"1"|"2"|"3"|"etc"}?
+    }
+    
+verbfeatures = element feature{
+    attribute Number {"Sing"|"Plur"}
+    | attribute VerbForm {"Fin"|"Inf"|"Part"}
+    | attribute Mood {"Ind"|"Imp"|"Sub"|"Opt"}
+    | attribute Tense {"Past"|"Pres"}
+    | attribute Voice {"Act"|"Pass"|"Cau"}
+    | attribute Person {"1"|"2"|"3"}
+    | attribute Polite {"Form"}
+    }
+
+xfeatures = element feature{
+    attribute Foreign {"Yes"}?
+    }
+
+# UD HEAD and DEPREL: UD-Subset for Pahlavi
+dependency = element dependency {
+    element HEAD {xsd:int}, 
+    element dependencyRelation {
+        string "acl" 
+        | string "advcl" 
+        | string "advmod" 
+        | string "amod" 
+        | string "appos" 
+        | string "aux" 
+        | string "case"
+        | string "cc"
+        | string "ccomp"
+        | string "compound"
+        | string "conj"
+        | string "cop"
+        | string "det"
+        | string "discourse"
+        | string "fixed"
+        | string "iobj"
+        | string "mark"
+        | string "nmod"
+        | string "nsubj"
+        | string "nummod"
+        | string "obj"
+        | string "obl"
+        | string "root"
+        }
+    }
+
+MISC = element MISC {attr+}  # one or more attributes
+
+attr = element attr {
+    attribute SpaceAfter {"No"}
+    | attribute Translit {text} # UD: transliteration or transcription of the word form.   
+    | attribute LTranslit {text} # UD: analogy of Translit for lemmas.
+    | (attribute NewPar {"Yes"}, element folioNumber {xsd:string}) # marker for page breaks
+    # in UD, a page/paragraph break within a sentence is marked with the attribute NewPar=Yes in column MISC
+} 

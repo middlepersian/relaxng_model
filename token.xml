@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="token.rnc" type="application/relax-ng-compact-syntax"?>
+
+<tok tokId="1" toDiscuss="true">
+    <UDId>1</UDId>
+    <transcription uncertain="true">transcription</transcription>
+    <transliteration uncertain="true">transliteration</transliteration>
+    <transliteration uncertain="true">another transliteration</transliteration>
+    <lemma>lemma</lemma>
+    <annotations>
+        <morphologicalAnnotation producer="man">
+            <morphAnno>
+                <POS>X</POS>
+                <FEATS><feature Foreign="Yes"/></FEATS>
+            </morphAnno>
+        </morphologicalAnnotation>
+        <morphologicalAnnotation producer="comp">
+            <morphAnno>
+                <POS>X</POS>
+            </morphAnno>
+        </morphologicalAnnotation>
+        <syntacticalAnnotation producer="man">
+            <dependency>
+                <HEAD>1</HEAD>
+                <dependencyRelation>nsubj</dependencyRelation>
+            </dependency>
+        </syntacticalAnnotation>
+        <syntacticalAnnotation producer="comp">
+            <dependency>
+                <HEAD>1</HEAD>
+                <dependencyRelation>nsubj</dependencyRelation>
+            </dependency>
+        </syntacticalAnnotation>
+        <MISC>
+            <attr Translit=""></attr>
+            <attr NewPar="Yes">
+                <folioNumber>Id of new folio</folioNumber>
+            </attr>
+        </MISC>
+    </annotations>
+    <tokenSemantics>
+        <meaning>meaning</meaning>
+        <dictRef>someRefId</dictRef>
+        <semanticDomain>id or label?</semanticDomain>
+    </tokenSemantics>
+    <tokenComment>optional comment</tokenComment>
+</tok>
+

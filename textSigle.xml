@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="textSigle.rnc" type="application/relax-ng-compact-syntax"?>
+
+<textSigle sigleId="Dd">
+    <sigleMetadata genre="authorial-th">
+        <author>Manuščihr</author>
+        <title>Dādestān ī dēnīg</title> 
+    </sigleMetadata>
+    <corpusTextRef>1 23
+        <!-- list of pointers to instances in corpus -->
+    </corpusTextRef>
+</textSigle>

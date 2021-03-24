@@ -1,0 +1,12 @@
+start = edition  # an edition, to be referred to from corpus
+
+edition = element edition {editionMetadata, textSigleRef}
+
+editionMetadata = element editionMetadata {
+    attribute editionId {xsd:ID},
+    element title {text}, # edition title
+    (element author {text})+, # one or more authors
+    element bibRef {list {xsd:string+}}  # (list of) pointer(s) to the bibliography
+    }
+
+textSigleRef = element textSigleRef {list {xsd:string+}} # a list of textSigleIds

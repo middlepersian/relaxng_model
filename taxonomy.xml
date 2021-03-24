@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="taxonomy.rnc" type="application/relax-ng-compact-syntax"?>
+
+<taxonomy>
+    <domain domainId="d1" label="first domain">
+        <!-- multiple subDomains allowed, each pointing to a domain -->
+        <subDomain refId="d11"/>
+        <subDomain refId="d12"/>
+        <!-- list of lexemes allowed on each level -->
+        <lexemeRef>l1 l2 l3</lexemeRef>
+    </domain>
+    <domain domainId="d2" label="second domain">
+        <!-- a domain with subDomains but no lexemes -->
+        <lexemeRef>l1 l2 l3</lexemeRef>
+    </domain>
+    <domain domainId="d11" label="second domain">
+        <!-- a domain with no subDomains -->
+        <lexemeRef>l1 l2 l3</lexemeRef>
+    </domain>
+    <domain domainId="d12" label="second domain">
+        <!-- a domain with subDomains and lexemes -->
+        <subDomain refId="d121"/>
+        <lexemeRef>l1 l2 l3</lexemeRef>
+    </domain>
+    <domain domainId="d121" label="second domain">
+        <!-- a domain with no subDomains -->
+        <lexemeRef>l1 l2 l3</lexemeRef>
+    </domain>
+</taxonomy>

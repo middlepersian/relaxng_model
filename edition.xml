@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="edition.rnc" type="application/relax-ng-compact-syntax"?>
+
+<edition>
+    <editionMetadata editionId="edition1">
+        <title>edition title</title>
+        <author>author 1</author> 
+        <author>author 2</author>
+        <!-- usw. -->
+        <bibRef>bibref1 bibref2 bibref3</bibRef>
+    </editionMetadata>
+    <textSigleRef>sigle1 sigle7 sigle18</textSigleRef>
+</edition>
