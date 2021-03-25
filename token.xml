@@ -5,13 +5,15 @@
     <UDId>1</UDId>
     <transcription uncertain="true">transcription</transcription>
     <transliteration uncertain="true">transliteration</transliteration>
-    <transliteration uncertain="true">another transliteration</transliteration>
     <lemma>lemma</lemma>
     <annotations>
         <morphologicalAnnotation producer="man">
             <morphAnno>
-                <POS>X</POS>
-                <FEATS><feature Foreign="Yes"/></FEATS>
+                <POS>ADJ</POS>
+                <FEATS>
+                    <feature Case="Acc"/>
+                    <feature VerbForm="Part"/>
+                </FEATS>
             </morphAnno>
         </morphologicalAnnotation>
         <morphologicalAnnotation producer="comp">
@@ -22,7 +24,7 @@
         <syntacticalAnnotation producer="man">
             <dependency>
                 <HEAD>1</HEAD>
-                <dependencyRelation>nsubj</dependencyRelation>
+                <dependencyRelation>amod</dependencyRelation>
             </dependency>
         </syntacticalAnnotation>
         <syntacticalAnnotation producer="comp">
@@ -30,13 +32,13 @@
                 <HEAD>1</HEAD>
                 <dependencyRelation>nsubj</dependencyRelation>
             </dependency>
-        </syntacticalAnnotation>
+        </syntacticalAnnotation>     
         <MISC>
-            <attr Translit=""></attr>
             <attr NewPar="Yes">
                 <folioNumber>Id of new folio</folioNumber>
             </attr>
         </MISC>
+    
     </annotations>
     <tokenSemantics>
         <meaning>meaning</meaning>

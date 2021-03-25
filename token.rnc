@@ -5,7 +5,7 @@ tok = element tok {
     attribute toDiscuss {xsd:boolean},
     element UDId {xsd:int}, # UD: ID 
     element transcription {text, uncertain}, # UD: FORM
-    (element transliteration {text, uncertain} +) ?, # none or more --> move to MISC?
+    element transliteration {text, uncertain},
     element lemma {xsd:string}, # UD: LEMMA
     annotations?, # UD: morphology and syntax
     element tokenSemantics {

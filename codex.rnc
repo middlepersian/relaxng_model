@@ -4,7 +4,6 @@ codex = element codex {codexMetadata, folio, textSigleRef}
 
 codexMetadata = element codexMetadata {
     attribute codexId {xsd:ID},
-    attribute stage {"untouched"|"inprogress"|"finished"}, # do we need this? stage already encoded in corpus?
     element title {text}, # codex title
     element copyDate {xsd:date},
     element copyPlace {
