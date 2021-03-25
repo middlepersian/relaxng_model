@@ -13,7 +13,6 @@ entry = element entry {
     element phoneticVariants {list {xsd:string+}},
     element orthography {list {xsd:string+}},
     element morphology {list {xsd:string+}},
-    # the following are defined below:
     hierarchizedMeanings, 
     internalReferences?,
     externalReferences?,
