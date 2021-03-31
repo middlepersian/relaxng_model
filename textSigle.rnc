@@ -2,7 +2,62 @@ start = textSigle
 
 textSigle = element textSigle {sigleId, sigleMetadata, corpusTextRef}
 
-sigleId = attribute sigleId {xsd:ID} # unique abbr for texts
+sigleId = attribute sigleId { # unique abbreviations for texts
+    "AM"    # Handarz ī anōšag ruwan ādurbād māraspandān
+    | "AŌD" # Andarz ī Ōšnar ī dānāg
+    | "Aog." # Aogǝmadaecā
+    | "ASS" # Abdīhā ud sahīgīhā ī Sīstān
+    | "AWM" # Ayadgār ī Wuzurg-mihr
+    | "AWN" # Ardā Wirāz Nāmag
+    | "AZ"  # Ayādgār ī Zarērān
+    | "CHP" # Čīdag handarz ī pōryōtkēšān
+    | "DA"  # Draxt ī āsūrīg
+    | "Dd"  # Dādestān ī dēnīg
+    | "Dk3" # Dēnkard 3
+    | "Dk4" # Dēnkard 4
+    | "Dk5" # Dēnkard 5
+    | "Dk6" # Dēnkard 6
+    | "Dk7" # Dēnkard 7
+    | "Dk8" # Dēnkard 8
+    | "Dk9" # Dēnkard 9
+    | "DkC" # Dēnkard Colophon
+    | "DMX" # Dādestān ī mēnōy ī xrad
+    | "ENN" # Ēwēnag nāmag nibēsišnīh
+    | "GA" # Mādīgān ī Gizistag Abālīš
+    | "GBd" # Great Bundahišn
+    | "Hēr." # Hērbedestān
+    | "HKR" # Husraw ī Kawādān ud rēdag-ēw
+    | "HN" # Hādōxt Nask
+    | "IndBd" # Indian Bundahišn
+    | "KAP" # Kārnāmag ī Ardašīr ī Pābagān
+    | "MFRH" # Māh Frawardīn rōz Hordād
+    | "MHD" # Mādayān ī hazār dādestān
+    | "MK-Andarz" # Didactic texts from ms. MK
+    | "MYFr" # Mādayān ī yašt ī friyān
+    | "N." # Nērangestān
+    | "NM" # Nāmagīhā ī manuščihr
+    | "OHD" # Ohrmazd ī harwisp-dānāg
+    | "P." # Pursišnīhā
+    | "PahlRivDd" # Pahlavi rivāyat ī dādestān ī dēnīg
+    | "PT" # Pahlavi translation
+    | "PV" # Pahlavi Wīdēwdād
+    | "PY" # Pahlavi Yasna
+    | "RAF" # Pahlavi Rivāyat of Ādurfarrbay and Farrbay-srōš
+    | "RĒA" # Rivāyat ī Ēmēd Ašawahištān
+    | "ŠGW" # Škand gumānīg wizār
+    | "ŠiĒ" # Šahrestānīhā ī Ērān
+    | "ŠnŠ" # Šāyest nē šāyest
+    | "Vr." # Visparad
+    | "Vyt." # Vištāsp Yašt
+    | "WCNA" # Wizārišn ī čatrang ud nēw-ardaxšīr
+    | "WD" # Wizirgerd ī dēnīg
+    | "WDWM" # Wizīrīhā ī dēn ī weh ī mazdēsnān
+    | "WZ" # Wizīdagīhā ī zādspram
+    | "X&D" # Xēšm ud dēwān
+    | "XAv" # Ḫorde Avestā
+    | "ZFJ" # Zand ī fragard ī jud-dēwdād
+    | "ZWY" # Zand ī wahman yasn
+} 
 
 sigleMetadata = element sigleMetadata {
     element author {text} +,
