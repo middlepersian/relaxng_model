@@ -13,6 +13,7 @@ tok = element tok {
         element dictRef {xsd:string} ?, # (optional) pointer to lemmaId in dictionary
         element semanticDomain {xsd:string} ? # pointer to a semantic domain in the taxonomy (= Id or label?), 
     },
+    newPart*, # if the token located at the beginning of a new text part
     element tokenComment {text} # free text "container"
     }
 
@@ -24,7 +25,7 @@ annotations = element annotations {
     MISC? # UD MISC: Any other annotation
     }
     
-producer = attribute producer {string "comp" | string "man"} 
+producer = attribute producer {string "comp" | string "phil"} 
 
 # POS: UD-Subset for Pahlavi
 morphAnno = element morphAnno {
@@ -59,11 +60,11 @@ adjfeatures = element feature {
     | attribute Polarity {"Neg"}
     }
 
-adpfeatures = element feature{
+adpfeatures = element feature {
     attribute Pos {"Pre"|"Post"|"Circum"}
     }
     
-advfeatures = element feature{
+advfeatures = element feature {
     attribute PronType {"Dem"|"Ind"|"Int"|"Neg"|"Rel"|"Tot"}
     | attribute NumType {"Ord"|"Mult"}
     | attribute Degree {"Cmp"|"Pos"|"Sup"}
@@ -73,7 +74,7 @@ advfeatures = element feature{
     | attribute Polarity {"Neg"}
     }
 
-auxfeatures = element feature{
+auxfeatures = element feature {
     attribute Copula {"Yes"}
     | attribute Number {"Sing"|"Plur"}
     | attribute VerbForm {"Fin"|"Inf"|"Part"}
@@ -85,7 +86,7 @@ auxfeatures = element feature{
     | attribute Polite {"Form"}
     }
     
-detfeatures = element feature{
+detfeatures = element feature {
     attribute PronType {"Dem"|"Emp"|"Exc"|"Ind"|"Int"|"Neg"|"Rel"|"Tot"}
     | attribute NumType {"Ord"|"Mult"}
     | attribute Reflex {"Yes"}
@@ -93,7 +94,7 @@ detfeatures = element feature{
     | attribute Number {"Sing"|"Plur"}
     }
     
-nounfeatures = element feature{
+nounfeatures = element feature {
     attribute Number {"Sing"|"Plur"}
     | attribute Case {"Nom"|"Acc"}
     | attribute Definite {"Ind"|"Spec"|"Def"}
@@ -103,17 +104,17 @@ nounfeatures = element feature{
     | attribute Polarity {"Neg"}
    }
 
-numfeatures = element feature{
+numfeatures = element feature {
     attribute PronType {"Dem"|"Ind"|"Int"|"Rel"}
     | attribute NumType {"Card"|"Frac"|"Sets"}
     | attribute Number {"Sing"|"Plur"}
     }
     
-partfeatures = element feature{
+partfeatures = element feature {
     attribute PartType {"Verbal"|"Poss"|"Neg"}?
     }
     
-pronfeatures = element feature{
+pronfeatures = element feature {
     attribute PronType {"Dem"|"Emp"|"Exc"|"Ind"|"Int"|"Neg"|"Rel"|"Tot"}
     | attribute Poss {"Yes"}
     | attribute Reflex {"Yes"}
@@ -122,11 +123,11 @@ pronfeatures = element feature{
     | attribute Polite {"Form"}
     }
     
-puncfeatures = element feature{
+puncfeatures = element feature {
     attribute Type {"1"|"2"|"3"|"etc"}?
     }
     
-verbfeatures = element feature{
+verbfeatures = element feature {
     attribute Number {"Sing"|"Plur"}
     | attribute VerbForm {"Fin"|"Inf"|"Part"}
     | attribute Mood {"Ind"|"Imp"|"Sub"|"Opt"}
@@ -136,7 +137,7 @@ verbfeatures = element feature{
     | attribute Polite {"Form"}
     }
 
-xfeatures = element feature{
+xfeatures = element feature {
     attribute Foreign {"Yes"}?
     }
 
@@ -176,6 +177,14 @@ attr = element attr {
     attribute SpaceAfter {"No"}
     | attribute Translit {text} # UD: transliteration or transcription of the word form.   
     | attribute LTranslit {text} # UD: analogy of Translit for lemmas.
-    | (attribute NewPar {"Yes"}, element folioNumber {xsd:string}) # marker for page breaks
     # in UD, a page/paragraph break within a sentence is marked with the attribute NewPar=Yes in column MISC
-} 
+}
+
+newPart = element newPart {
+        attribute PartType { # type of the partition
+            "chapter" | "section" | "folio" | "line" | "stroph" | "verse"
+        }, 
+        attribute PartNo {xsd:int}, # no. of the new partition 
+        attribute Source {text}?, # source of the partition, a philologist, a publication, a project etc.
+        element reference {xsd:string}? # reference to partition for example to a folio; optional
+}
