@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="corpus.rnc" type="application/relax-ng-compact-syntax"?>
+<?xml-model href="corpus-NEW.rnc" type="application/relax-ng-compact-syntax"?>
 
 <corpus>
     <corpusText>
@@ -10,44 +10,28 @@
             <editor>KR CN</editor>
             <source sourceType="codex" sourceId="refToCodexId"/>
         </textMetadata>
-        <!-- chapter -->
-        <chapter chapterId="txt1_ch1">
-            <!-- section -->
-            <section sectionId="txt1_ch1_sec1">
-                <!-- sentence -->
-                <sentence sentenceId="txt1_ch1_sec1_s1">
-                    <fullSentence>full sentence (optional)</fullSentence>
-                    <translation>translation (optional)</translation>
-                    <comment>free text (optional)</comment>
-                    <tok tokId="txt1_ch1_sec1_s1_t1">
-                        <!-- for tokenSpec see schema-->
-                    </tok>
-                    <tok tokId="txt1_ch1_sec1_s1_t2"></tok>
-                    <tok tokId="txt1_ch1_sec1_s1_t3"></tok>
-                    <!-- etc ... -->
-                </sentence>
-                <!-- another sentence ... -->
-                <sentence sentenceId="txt1_ch1_sec1_s2">
-                    <tok tokId="txt1_ch1_sec1_s2_t1"></tok>
-                </sentence>
-                <!-- etc ... -->
-            </section>
-            <!-- another section ... -->
-            <section sectionId="txt1_ch1_sec2">
-                <sentence sentenceId="txt1_ch1_sec2_s1">
-                    <tok tokId="txt1_ch1_sec2_s1_t1"></tok>
-                </sentence>
-            </section>
+        <sentence sentenceId="txt1_ch1_sec1_s1">
+            <fullSentence>full sentence (optional)</fullSentence>
+            <translation>translation (optional)</translation>
+            <comment>free text (optional)</comment>
+            <tok tokId="txt1_ch1_sec1_s1_t1">
+            <!-- for tokenSpec see schema-->
+            </tok>
+            <tok tokId="txt1_ch1_sec1_s1_t2"></tok>
+            <tok tokId="txt1_ch1_sec1_s1_t3"></tok>
             <!-- etc ... -->
-        </chapter>
-        <!-- another chapter ... -->
-        <chapter chapterId="txt1_ch2">
-            <section sectionId="txt1_ch2_sec1">
-                <sentence sentenceId="txt1_ch2_sec1_s1">
-                    <tok tokId="txt1_ch2_sec1_s1_t1"></tok>
-                </sentence>
-            </section>
-        </chapter>
+        </sentence>
+        <!-- another sentence ... -->
+        <sentence sentenceId="txt1_ch1_sec1_s2">
+            <tok tokId="txt1_ch1_sec1_s2_t1"></tok>
+        </sentence>
+        <sentence sentenceId="txt1_ch1_sec2_s1">
+            <tok tokId="txt1_ch1_sec2_s1_t1"></tok>
+        </sentence>
+        <sentence sentenceId="txt1_ch2_sec1_s1">
+            <tok tokId="txt1_ch2_sec1_s1_t1"></tok>
+        </sentence>
+        <!-- etc ... -->
     </corpusText>
     <!-- and another text... -->
     <corpusText>
@@ -58,22 +42,16 @@
             <editor>Titus</editor>
             <source sourceType="edition" sourceId="refToEditionId"></source>
         </textMetadata>
-        <chapter chapterId="txt2_c1">
-            <section sectionId="txt2_ch1_sec1">
-                <sentence sentenceId="txt2_ch1_sec1_s1">
-                    <tok tokId="txt2_ch1_sec1_s1_t1"></tok>
-                    <tok tokId="txt2_ch1_sec1_s1_t2"></tok>
-                    <tok tokId="txt2_ch1_sec1_s1_t3"></tok>
-                    <!-- etc... -->
-                </sentence>
-                <sentence sentenceId="txt2_ch1_sec1_s2">
-                    <tok tokId="txt2_ch1_sec1_s2_t1"></tok>
-                    <!-- etc... -->
-                </sentence>
-                <!-- etc... -->
-            </section>
+        <sentence sentenceId="txt2_ch1_sec1_s1">
+            <tok tokId="txt2_ch1_sec1_s1_t1"></tok>
+            <tok tokId="txt2_ch1_sec1_s1_t2"></tok>
+            <tok tokId="txt2_ch1_sec1_s1_t3"></tok>
             <!-- etc... -->
-        </chapter>
+        </sentence>
+        <sentence sentenceId="txt2_ch1_sec1_s2">
+            <tok tokId="txt2_ch1_sec1_s2_t1"></tok>
+            <!-- etc... -->
+        </sentence>
         <!-- etc... -->
     </corpusText>
     <!-- and another ... -->
