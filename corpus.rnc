@@ -2,7 +2,7 @@ start = corpus # corpus metadata in TEI header
 
 corpus = element corpus {corpusText+} # corpus consists of texts
 
-corpusText = element corpusText {textMetadata, chapter+} # each text has one or more chapters
+corpusText = element corpusText {textMetadata, sentence+} # each text consists of one or more sentences
 
 textMetadata = element textMetadata {
     attribute textId {xsd:ID},
@@ -10,21 +10,20 @@ textMetadata = element textMetadata {
     element sigle {text}, # pointer to textSigle schema
     element title {text},
     element creationDate {xsd:date},
-    element editor {list {xsd:string+}},
+    element editor {xsd:string}, # philologist responsible for the text
+    element collaborator {xsd:string}*, # philologist responsible for the text
     element source {
         attribute sourceType {"codex"|"edition"},
         attribute sourceId {xsd:string}
-        }
+        },
+    element resource {
+        attribute author {xsd:string}?,
+        attribute project {xsd:string}?,
+        attribute description {xsd:string}?,
+        attribute reference {xsd:anyURI}?
+    }*
     }
     
-chapter = element chapter { # chapters have sections
-    attribute chapterId {xsd:ID},
-    (element section { # sections have sentences
-        attribute sectionId {xsd:ID},
-        sentence+
-        })+
-    }
-
 sentence = element sentence {
     attribute sentenceId {xsd:ID},
     element fullSentence {text} ?, # full sentence (optional, see UD)
