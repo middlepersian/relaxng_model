@@ -3,7 +3,7 @@
 
 <dictionary taxonomy="link to taxonomy">
     <entry entryId="e1" stage="inprogress" DOI="doi:10.1000/1">
-        <lemma>lemma</lemma>
+        <lemma>garōdmān</lemma>
         <!-- synopsis: values taken from  hierarchizedMeanings below -->
             <phoneticVariants>hierarchizedMeanings.semantics.meaningPhoneticVariant</phoneticVariants>
             <orthography>hierarchizedMeanings.semantics.orthographicVariant</orthography>
@@ -38,18 +38,19 @@
             <iRef type="antonym" refId="e2"/>
         </internalReferences>
         <externalReferences>
-            <eRef refType="AvestanLexeme">
-                <lexeme></lexeme>
+            <eRef refType="etymology">
+                <language>Av</language>
+                <lexeme>garō dǝmāna</lexeme>
                 <bibRef>pointer(s) to bibliography</bibRef>
             </eRef>            
-            <eRef refType="etymology">
-                <lexeme></lexeme>
+            <eRef refType="loanWord">
+                <language>Av</language>
+                <lexeme>garō dǝmāna</lexeme>
                 <bibRef>pointer(s) to bibliography</bibRef>
-                <comment></comment>
             </eRef>            
         </externalReferences>        
         <!-- list of bibRefs to entry -->
-        <bibRef>ref1 ref 2</bibRef>
+        <bibRef>ref1 ref2</bibRef>
         <comment></comment>
     </entry>
     <entry entryId="e2" stage="inprogress" DOI="">

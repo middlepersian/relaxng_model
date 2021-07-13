@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="token-NEW.rnc" type="application/relax-ng-compact-syntax"?>
+<?xml-model href="token.rnc" type="application/relax-ng-compact-syntax"?>
 
-<tok tokId="1" toDiscuss="true">
+<tok tokId="1" uncertain="C" newSuggestion= "M" toDiscuss="S">
     <UDId>1</UDId>
-    <transcription uncertain="true">transcription</transcription>
-    <transliteration uncertain="true">transliteration</transliteration>
+    <transcription>garōdmān</transcription>
+    <transliteration>glwtmʾnˈ</transliteration>
     <lemma>lemma</lemma>
     <annotations>
         <morphologicalAnnotation producer="phil">
             <morphAnno>
-                <POS>ADJ</POS>
+                <POS>NOUN</POS>
                 <FEATS>
-                    <feature Case="Acc"/>
-                    <feature VerbForm="Part"/>
+                    <feature Animacy="Inan"/>
                 </FEATS>
             </morphAnno>
         </morphologicalAnnotation>
@@ -36,7 +35,7 @@
     </annotations>
 
     <tokenSemantics>
-        <meaning>meaning</meaning>
+        <meaning>paradise</meaning>
         <dictRef>someRefId</dictRef>
         <semanticDomain>id or label?</semanticDomain>
     </tokenSemantics>

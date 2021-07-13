@@ -2,27 +2,29 @@ start = tok # to be included in corpus
 
 tok = element tok {
     attribute tokId {xsd:int},
-    attribute toDiscuss {xsd:boolean},
     element UDId {xsd:int}, # UD: ID 
-    element transcription {text, uncertain}, # UD: FORM
-    element transliteration {text, uncertain},
+    element transcription {xsd:string}, # UD: FORM
+    element transliteration {xsd:string},
     element lemma {xsd:string}, # UD: LEMMA
     annotations?, # UD: morphology and syntax
     element tokenSemantics {
         element meaning {xsd:string},
-        element dictRef {xsd:string} ?, # (optional) pointer to lemmaId in dictionary
+        element dictRef {xsd:string}?, # (optional) pointer to dictionary.entry.hierarchizedMeaning.semantics
         element semanticDomain {xsd:string} ? # pointer to a semantic domain in the taxonomy (= Id or label?), 
     },
+    element avestan {xsd:string}?, # corresponding Avestan lexeme if the text is a Zand text and the token corresponds to an Av. lexeme
+    uncertain*,  
     newPart*, # if the token located at the beginning of a new text part
-    element tokenComment {text} # free text "container"
+    element tokenComment {text}, # free text "container"
+    newSuggestion*,
+    toDiscuss*
     }
-
-uncertain = attribute uncertain {xsd:boolean}
 
 annotations = element annotations {
     element morphologicalAnnotation {producer, morphAnno}+,
-    element syntacticalAnnotation {producer, dependency}+, 
-    MISC? # UD MISC: Any other annotation
+    element syntacticalAnnotation {producer, dependency}+
+    #MISC? # UD MISC: Any other annotation; we do not need it in our data model
+    # but we will probably use it by exporting to UD 
     }
     
 producer = attribute producer {string "comp" | string "phil"} 
@@ -102,6 +104,7 @@ nounfeatures = element feature {
     | attribute Tense {"Past"|"Pres"}
     | attribute Voice {"Act"|"Pass"|"Cau"}
     | attribute Polarity {"Neg"}
+    | attribute Animacy {"Hum"|"Nhum"|"Anim"|"Inan"}
    }
 
 numfeatures = element feature {
@@ -188,3 +191,8 @@ newPart = element newPart {
         attribute Source {text}?, # source of the partition, a philologist, a publication, a project etc.
         element reference {xsd:string}? # reference to partition for example to a folio; optional
 }
+
+#transCription, transLiteration, Semantics, Morphology, syntaX
+uncertain = attribute uncertain {"C"|"L"|"S"|"M"|"X"}
+toDiscuss = attribute toDiscuss {"C"|"L"|"S"|"M"|"X"}
+newSuggestion = attribute newSuggestion {"C"|"L"|"S"|"M"|"X"}
