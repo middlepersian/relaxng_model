@@ -12,12 +12,12 @@ tok = element tok {
         element dictRef {xsd:string}?, # (optional) pointer to dictionary.entry.hierarchizedMeaning.semantics
         element semanticDomain {xsd:string} ? # pointer to a semantic domain in the taxonomy (= Id or label?), 
     },
-    element avestan {xsd:string}?, # corresponding Avestan lexeme if the text is a Zand text and the token corresponds to an Av. lexeme
-    uncertain*,  
+    element avestan {xsd:string}?, # corresponding Avestan lexeme if the text is a Zand text and the token corresponds to an Av. lexeme 
     newPart*, # if the token located at the beginning of a new text part
-    element tokenComment {text}, # free text "container"
+    element tokenComment {text}{ # free text "container"
+    uncertain*, 
     newSuggestion*,
-    toDiscuss*
+    toDiscuss*}
     }
 
 annotations = element annotations {
