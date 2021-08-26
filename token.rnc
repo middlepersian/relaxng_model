@@ -43,7 +43,7 @@ morphAnno = element morphAnno {
     | (element POS {"PART"}, element FEATS {partfeatures+}?)
     | (element POS {"PRON"}, element FEATS {pronfeatures+}?) 
     | element POS {"PROPN"}
-    | (element POS {"PUNC"}, element FEATS {puncfeatures+}?)
+    | (element POS {"PUNCT"}, element FEATS {punctfeatures+}?)
     | element POS {"SCONJ"}
     | element POS {"SYM"}
     | (element POS {"VERB"}, element FEATS {verbfeatures+}?)
@@ -126,7 +126,7 @@ pronfeatures = element feature {
     | attribute Polite {"Form"}
     }
     
-puncfeatures = element feature {
+punctfeatures = element feature {
     attribute PunctSide {"Ini"|"Fin"} |
     attribute Hyph {"Yes"}
     }
