@@ -127,7 +127,8 @@ pronfeatures = element feature {
     }
     
 puncfeatures = element feature {
-    attribute Type {"1"|"2"|"3"|"etc"}?
+    attribute PunctSide {"Ini"|"Fin"} |
+    attribute Hyph {"Yes"}
     }
     
 verbfeatures = element feature {
