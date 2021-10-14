@@ -2,22 +2,17 @@ start = dictionary # dictionary metadata in TEI header
 
 dictionary = element dictionary {taxonomy, entry+} # reference to taxonomy and entries
 
-## 
-## !!! I would not directly specify the taxonomy here, do not think is relevant
+
 taxonomy = attribute taxonomy{string} # the taxonomy is defined in taxonomy.rng
 
 entry = element entry {
-    attribute entryId {xsd:ID}, # unique ID
-    ###
-    ### !!! How do you want to establish this? Which criteria are you going to use?
+    attribute entryId {xsd:ID}, # unique ID for the entry
     attribute stage {"inprogress"|"finished"},
     attribute DOI {xsd:anyURI},
     element lemma {xsd:string},
     # the following three are a synopsis of information from the meaninggroup(s)
     element phoneticVariants {list {xsd:string+}},
 
-    ##
-    ## !! do not understand
     element orthography {list {xsd:string+}}, # union of meaningPhoneticVariants 
     element morphology {list {xsd:string+}}, # union of orthographicVariants
     hierarchizedMeanings, 
@@ -36,7 +31,6 @@ hierarchizedMeanings = element hierarchizedMeanings {# one per entry
         }
     }
     
-## If we are using a taxonomy that already has these concepts, why do we have to use them again???    
 termTech = element terminusTechnicus {
     attribute category {"astr"|"bot"|"econom"|"legal"|"measure"|"med"|"philos"|"pol"|"purity"|"ritual"|"theol"|"zool"}+, 
     element translation {xsd:string},
