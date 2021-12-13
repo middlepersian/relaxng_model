@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="token.rnc" type="application/relax-ng-compact-syntax"?>
 
-<tok tokId="1" uncertain="C" newSuggestion= "M" toDiscuss="S">
+<tok tokId="1">
     <UDId>1</UDId>
     <transcription>garōdmān</transcription>
     <transliteration>glwtmʾnˈ</transliteration>
@@ -41,6 +41,5 @@
     </tokenSemantics>
     <newPart PartType="folio" PartNo="142"><reference>K7_142</reference></newPart>
     <newPart PartType="section" PartNo="4"></newPart>
-    <tokenComment>optional comment</tokenComment>
+    <tokenComment uncertain="C" newSuggestion= "M" toDiscuss="S">optional comment</tokenComment>
 </tok>
-

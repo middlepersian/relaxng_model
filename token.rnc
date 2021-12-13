@@ -14,10 +14,12 @@ tok = element tok {
     },
     element avestan {xsd:string}?, # corresponding Avestan lexeme if the text is a Zand text and the token corresponds to an Av. lexeme 
     newPart*, # if the token located at the beginning of a new text part
-    element tokenComment {text}{ # free text "container"
-    uncertain*, 
-    newSuggestion*,
-    toDiscuss*}
+    element tokenComment{ # free text "container"
+        text,
+        uncertain*, 
+        newSuggestion*,
+        toDiscuss*
+        }
     }
 
 annotations = element annotations {
