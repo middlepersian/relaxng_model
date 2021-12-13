@@ -14,6 +14,7 @@ tok = element tok {
     },
     element avestan {xsd:string}?, # corresponding Avestan lexeme if the text is a Zand text and the token corresponds to an Av. lexeme 
     newPart*, # if the token located at the beginning of a new text part
+    element gloss{text}?, # optional "container" for glossings, can be qualified at a later stage
     element tokenComment{ # free text "container"
         text,
         uncertain*, 
