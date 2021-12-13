@@ -2,7 +2,7 @@
 <?xml-model href="codex.rnc" type="application/relax-ng-compact-syntax"?>
 
 <codex>
-    <codexMetadata codexId="codex1" stage="inprogress">
+    <codexMetadata codexId="codex1">
         <title>codex title</title>
         <copyDate>2021-02-25</copyDate> 
         <copyPlace>
