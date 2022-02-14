@@ -27,9 +27,16 @@ textMetadata = element textMetadata {
 sentence = element sentence {
     attribute sentenceId {xsd:ID},
     element fullSentence {text} ?, # full sentence (optional, see UD)
-    element translation {text} ?, # translation (optional, see UD)
+    element translation+, # translation (optional, see UD)
     element comment {text} ?, # comment (optional)
     (element tok { # full token definition in separate schema
         attribute tokId {xsd:ID}
         })+ 
+    }
+
+
+translation = element translation {
+    attribute sentenceId {xsd:ID},
+    element translation{text}, # translation 
+    element lang {text}, # language of the translation
     }
