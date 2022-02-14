@@ -36,7 +36,7 @@ sentence = element sentence {
 
 
 translation = element translation {
-    attribute sentenceId {xsd:ID},
+    attribute translationId {xsd:ID},
     element translation{text}, # translation 
     element lang {text}, # language of the translation
     }
