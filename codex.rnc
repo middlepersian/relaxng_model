@@ -1,6 +1,6 @@
 start = codex # a codex, to be referred to from corpus
 
-codex = element codex {codexMetadata, folio, textSigleRef}
+codex = element codex {codexMetadata, codexHistory*, codexPart+, textSigleRef}
 
 codexMetadata = element codexMetadata {
     attribute codexId {xsd:ID},
@@ -13,15 +13,31 @@ codexMetadata = element codexMetadata {
     },
     element scribe {text},
     element library {text},
-    element signature {text},
-    element facsimile {list {xsd:string+}} # list of pointers to the bibliography
+    element signature {text}
     }
     
-# Range of folios and reference to facsimile:
-folio = element folio {
-    attribute first {xsd:int},
-    attribute last {xsd:int},
-    attribute folioPicture {xsd:anyURI}
+codexHistory = element codexHistory {
+    element copyDate {xsd:date},
+    element copyPlace {
+        element placeName {text},
+        element latitude {xsd:decimal},
+        element longitude {xsd:decimal}
+    },
+    element scribe {text},
     }
+    
+codexPart = element codexPart {# codex may come in one or more parts (f.i. MHD)
+    attribute codexPartId {xsd:ID},# derived from codexID (f.i. Modi_MHD)
+    element facsimile { # each part is represented by exactly one facsimile
+        element biblio {text}, # pointer to bibliographic entry
+        element folio {# Range of folios and reference to facsimile
+            attribute first {xsd:int},
+            attribute last {xsd:int},
+            attribute folioPicture {xsd:anyURI}
+            }
+        } 
+   } 
 
-textSigleRef = element textSigleRef {list {xsd:string+}} # a list of textSigleIds
+textSigleRef = element textSigleRef {list {xsd:string+}} # a list of textSigleIds (texts occuring in codex)
+
+
