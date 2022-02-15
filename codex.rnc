@@ -5,6 +5,7 @@ codex = element codex {codexMetadata, codexHistory*, codexPart+, textSigleRef}
 codexMetadata = element codexMetadata {
     attribute codexId {xsd:ID},
     element title {text}, # codex title
+    
     element copyDate {xsd:date},
     element copyPlace {
         element placeName {text},
@@ -16,19 +17,19 @@ codexMetadata = element codexMetadata {
     element signature {text}
     }
     
-codexHistory = element codexHistory {
+codexHistory = element codexHistory { # optional, for colophones
     element copyDate {xsd:date},
     element copyPlace {
         element placeName {text},
         element latitude {xsd:decimal},
         element longitude {xsd:decimal}
     },
-    element scribe {text},
+    element scribe {text}
     }
     
-codexPart = element codexPart {# codex may come in one or more parts (f.i. MHD)
+codexPart = element codexPart {# cf. TEI elem 'msPart'
     attribute codexPartId {xsd:ID},# derived from codexID (f.i. Modi_MHD)
-    element facsimile { # each part is represented by exactly one facsimile
+    element facsimile {
         element biblio {text}, # pointer to bibliographic entry
         element folio {# Range of folios and reference to facsimile
             attribute first {xsd:int},
