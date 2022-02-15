@@ -1,7 +1,19 @@
 start = tok # to be included in corpus
 
 tok = element tok {
-    attribute tokId {xsd:int},
+    attribute tokId {xsd:int},    
+    attribute tokLang {# optional, default: pal
+        # iso 639-3 
+        "pal"   # Pahlavi
+        |"arc"  # Imperial Aramaic (700-300 BCE), Official Aramaic (700-300 BCE)
+        |"ave"  # Avestan
+        |"grc"  # Ancient Greek (to 1453)
+        |"xpr"  # Parthian
+        |"prp"  # Parsi
+        |"ara"  # Arabic
+        |"guj"  # Gujarati
+        |"san"  # Sanskrit
+    }?, 
     element UDId {xsd:int}, # UD: ID 
     element transcription {xsd:string}, # UD: FORM
     element transliteration {xsd:string},
@@ -26,8 +38,8 @@ tok = element tok {
 annotations = element annotations {
     element morphologicalAnnotation {producer, morphAnno}+,
     element syntacticalAnnotation {producer, dependency}+
-    #MISC? # UD MISC: Any other annotation; we do not need it in our data model
-    # but we will probably use it by exporting to UD 
+    #MISC? # UD MISC: Any other annotation
+    # we do not need it in our data model, but we will probably use it when exporting to UD (see also comment at the end of this file) 
     }
     
 producer = attribute producer {string "comp" | string "phil"} 
@@ -178,15 +190,6 @@ dependency = element dependency {
         }
     }
 
-MISC = element MISC {attr+}  # one or more attributes
-
-attr = element attr {
-    attribute SpaceAfter {"No"}
-    | attribute Translit {text} # UD: transliteration or transcription of the word form.   
-    | attribute LTranslit {text} # UD: analogy of Translit for lemmas.
-    # in UD, a page/paragraph break within a sentence is marked with the attribute NewPar=Yes in column MISC
-}
-
 newPart = element newPart {
         attribute PartType { # type of the partition
             "chapter" | "section" | "folio" | "line" | "stroph" | "verse"
@@ -200,3 +203,13 @@ newPart = element newPart {
 uncertain = attribute uncertain {"C"|"L"|"S"|"M"|"X"}
 toDiscuss = attribute toDiscuss {"C"|"L"|"S"|"M"|"X"}
 newSuggestion = attribute newSuggestion {"C"|"L"|"S"|"M"|"X"}
+
+MISC = element MISC {attr+}  # one or more attributes
+
+# MISC is not explicitly employed in this data model, but might be relevant when exporting to UD! (e.g. for mapping "newPart" for pageBreaks)
+attr = element attr {
+    attribute SpaceAfter {"No"}
+    | attribute Translit {text} # UD: transliteration or transcription of the word form.   
+    | attribute LTranslit {text} # UD: analogy of Translit for lemmas.
+    # in UD, a page/paragraph break within a sentence is marked with the attribute NewPar=Yes in column MISC
+}
