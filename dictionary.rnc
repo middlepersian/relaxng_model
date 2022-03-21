@@ -42,7 +42,7 @@ semantics = element semantics {
     attribute serialId {xsd:int}, # internal numbering
     element occurrences {list{xsd:string+}}, # references to tokens in corpus
     element meaning {xsd:string},
-    element semanticDomain {xsd:string}, # reference to taxonomy?
+    element semanticDomain {list{xsd:string+}}, # reference to taxonomy?
     element meaningPhoneticVariants {list{xsd:string+}}, # different transcriptions of the tokens linked to this meaning
     element orthographicVariants {list{xsd:string+}}, # different transliterations of the tokens linked to this meaning
     element meaningMorphology {xsd:string}, # POS
