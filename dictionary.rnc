@@ -33,7 +33,7 @@ hierarchizedMeanings = element hierarchizedMeanings {# one per entry
 semantics = element semantics {
     attribute serialId {xsd:int}, # internal numbering
     element occurrences {list{xsd:string+}}, # references to tokens in corpus
-    element meaning {xsd:string},
+    element meaning {xsd:string}, # in the case of term. tech., its definition
     termTech?,
     element semanticDomain {list{xsd:string+}}, # reference to taxonomy?
     element meaningPhoneticVariants {list{xsd:string+}}, # different transcriptions of the tokens linked to this meaning
@@ -44,8 +44,7 @@ semantics = element semantics {
 
 termTech = element terminusTechnicus {
     attribute category {"astr"|"bot"|"econom"|"legal"|"measure"|"med"|"philos"|"pol"|"purity"|"ritual"|"theol"|"zool"}+, 
-    element translation {xsd:string},
-    element definition {xsd:string},
+    element translation {xsd:string}, # the literal translation of the term. tech., its definition will be stored in semantics.meaning 
     biblioEntry?
 }
 
