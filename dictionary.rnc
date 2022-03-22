@@ -26,28 +26,28 @@ hierarchizedMeanings = element hierarchizedMeanings {# one per entry
     element meaninggroup {# one or more
         attribute serialId {xsd:int}, # internal numbering
         attribute label {xsd:string}, # give it a name ...
-        termTech?,
         semantics+
         }
     }
     
-termTech = element terminusTechnicus {
-    attribute category {"astr"|"bot"|"econom"|"legal"|"measure"|"med"|"philos"|"pol"|"purity"|"ritual"|"theol"|"zool"}+, 
-    element translation {xsd:string},
-    element definition {xsd:string},
-    biblioEntry?
-}
-
 semantics = element semantics {
     attribute serialId {xsd:int}, # internal numbering
     element occurrences {list{xsd:string+}}, # references to tokens in corpus
     element meaning {xsd:string},
+    termTech?,
     element semanticDomain {list{xsd:string+}}, # reference to taxonomy?
     element meaningPhoneticVariants {list{xsd:string+}}, # different transcriptions of the tokens linked to this meaning
     element orthographicVariants {list{xsd:string+}}, # different transliterations of the tokens linked to this meaning
     element meaningMorphology {xsd:string}, # POS
     (example+)? # selected examples from corpus (optional)
     }
+
+termTech = element terminusTechnicus {
+    attribute category {"astr"|"bot"|"econom"|"legal"|"measure"|"med"|"philos"|"pol"|"purity"|"ritual"|"theol"|"zool"}+, 
+    element translation {xsd:string},
+    element definition {xsd:string},
+    biblioEntry?
+}
 
 example = element example {# selected examples from corpus
     attribute sentenceId{xsd:string}
