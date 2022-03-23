@@ -2,18 +2,7 @@ start = tok # to be included in corpus
 
 tok = element tok {
     attribute tokId {xsd:int},    
-    attribute tokLang {# optional, default: pal
-        # iso 639-3 
-        "pal"   # Pahlavi
-        |"arc"  # Imperial Aramaic (700-300 BCE), Official Aramaic (700-300 BCE)
-        |"ave"  # Avestan
-        |"grc"  # Ancient Greek (to 1453)
-        |"xpr"  # Parthian
-        |"prp"  # Parsi
-        |"ara"  # Arabic
-        |"guj"  # Gujarati
-        |"san"  # Sanskrit
-    }?, 
+    language?, # optional, default: pal
     element UDId {xsd:int}, # UD: ID 
     element transcription {xsd:string}, # UD: FORM
     element transliteration {xsd:string},
@@ -26,14 +15,14 @@ tok = element tok {
     },
     element avestan {xsd:string}?, # corresponding Avestan lexeme if the text is a Zand text and the token corresponds to an Av. lexeme 
     newPart*, # if the token located at the beginning of a new text part
-    element gloss{text}?, # optional "container" for glossings, can be qualified at a later stage
-    element tokenComment{ # free text "container"
-        text,
+    gloss?, # optional "container" for glossings
+    element tokenComment? { # free text "container"
+        text?,
         uncertain*, 
         newSuggestion*,
         toDiscuss*
-        }
     }
+}
 
 annotations = element annotations {
     element morphologicalAnnotation {producer, morphAnno}+,
@@ -42,6 +31,24 @@ annotations = element annotations {
     # we do not need it in our data model, but we will probably use it when exporting to UD (see also comment at the end of this file) 
     }
     
+element gloss {
+    element text {xsd:string}, # text of the gloss
+    language?,  # language of the gloss, optional, default: pal
+    element comment {xsd:string}?
+    }
+    
+language = attribute language {
+        # iso 639-3 
+        "pal"   # Pahlavi
+        |"arc"  # Imperial Aramaic (700-300 BCE), Official Aramaic (700-300 BCE)
+        |"ave"  # Avestan
+        |"grc"  # Ancient Greek (to 1453)
+        |"xpr"  # Parthian
+        |"prp"  # Parsi
+        |"ara"  # Arabic
+        |"guj"  # Gujarati
+        |"san"  # Sanskrit
+    }
 producer = attribute producer {string "comp" | string "phil"} 
 
 # POS: UD-Subset for Pahlavi
