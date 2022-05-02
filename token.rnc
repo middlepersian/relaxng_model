@@ -9,9 +9,9 @@ tok = element tok {
     element lemma {xsd:string}, # UD: LEMMA
     annotations?, # UD: morphology and syntax
     element tokenSemantics {
-        element meaning {xsd:string},
+        # the meaning as string is stored in dictionary.entry.hierarchizedMeaning.semantics; therefore, we do not need: element meaning {xsd:string},
         element dictRef {xsd:string}?, # (optional) pointer to dictionary.entry.hierarchizedMeaning.semantics
-        element semanticDomain {xsd:string} ? # pointer to a semantic domain in the taxonomy (= Id or label?), 
+        # semantic domain as a pointer to a concept in the taxonomy is stored in dictionary.entry.hierarchizedMeaning.semantics; therefore, we do not need: element semanticDomain {xsd:string}  
     },
     element avestan {xsd:string}?, # corresponding Avestan lexeme if the text is a Zand text and the token corresponds to an Av. lexeme 
     newPart*, # if the token located at the beginning of a new text part
