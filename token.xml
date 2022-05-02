@@ -35,9 +35,7 @@
     </annotations>
 
     <tokenSemantics>
-        <meaning>paradise</meaning>
         <dictRef>someRefId</dictRef>
-        <semanticDomain>id or label?</semanticDomain>
     </tokenSemantics>
     <newPart PartType="folio" PartNo="142"><reference>K7_142</reference></newPart>
     <newPart PartType="section" PartNo="4"></newPart>
