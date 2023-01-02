@@ -11,6 +11,8 @@ entry = element entry {
     attribute DOI {xsd:anyURI},
     element lemma {xsd:string},
     # the following three are a synopsis of information from the meaninggroup(s)
+    # TODO: to generally follow TEI, we can put the following information into this structure:
+    # form (including orth, phoneticVariants), gramGrp (pos), def (hierarchizedMeanings = senses) 
     element phoneticVariants {list {xsd:string+}},
 
     element orthography {list {xsd:string+}}, # union of meaningPhoneticVariants 
