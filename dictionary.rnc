@@ -33,7 +33,7 @@ entry = element entry {
 hierarchizedMeanings = element hierarchizedMeanings {# one per entry
     element meaninggroup {# one or more
         attribute serialId {xsd:int}, # internal numbering
-        semantics+
+        semantics+ # an ordered list
         }
 }
     
