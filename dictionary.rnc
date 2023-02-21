@@ -2,7 +2,6 @@ start = dictionary # dictionary metadata in TEI header
 
 dictionary = element dictionary {taxonomy, entry+} # reference to taxonomy and entries
 
-
 taxonomy = attribute taxonomy{string} # the taxonomy is defined in taxonomy.rng
 
 entry = element entry {
@@ -12,87 +11,107 @@ entry = element entry {
     # TODO: to generally follow TEI, we can put the following information into this structure:
     # form (including orth, phoneticVariants), gramGrp (pos), def (hierarchizedMeanings = senses) 
     element morphology {list {xsd:string+}}, # union of POS (from corpus)
-    element phoneticVariants {list {xsd:string+}}, # from corpus
+    element relativeFrequency {xsd:int}, # from corpus, per 100,000
+    element ocurrences {list {xsd:string+}}, # union of sense:ocurrences
+    element phoneticVariants: {list {variant}}, # union of phonti
+    element orthographicVariants: {list {variant}}, # union of phonti
 
-    element orthography { # from corpus
-    	phoneticWriting {list {xsd:string+}}, # union of phonographic variants 
-    	heterographicWriting {list {xsd:string+}}, # union of heterographic variants 
-    }
-
-    hierarchizedMeanings, 
-    mwes*,
+    hierarchizedMeanings,     
     internalReferences?,
     etymology?,
     biblioEntry?, # pointer(s) to bibliography (optional)
-    comment?
+    comment?,
 
     attribute stage {"inprogress"|"finished"},
     attribute DOI {xsd:anyURI},
 }
 
+morphology = element morphology {
+    compositionType? {"simplex"|"derived"|"compound"|"derived compoun"}?,
+    pos {list {xsd:string+}}
+}
+
+
 hierarchizedMeanings = element hierarchizedMeanings {# one per entry
     element meaninggroup {# one or more
         attribute serialId {xsd:int}, # internal numbering
-        semantics+ # an ordered list
+        semantics+ {list {sense}} # an ordered list
         }
 }
     
-semantics = element semantics {
+semantic = element semantic {
     attribute serialId {xsd:int}, # internal numbering
-    element definition {xsd:string}, # in the case of term. tech., its definition
-    externalReferences?,
-    termTech?,
+    element morphology {xsd:string}, # POS
+    element sense {xsd:string}, # in the case of term. tech., its definition
+    element definition {xsd:string}, # detailed description of the use of the lexeme
     element semanticDomain {list{xsd:string+}}, # reference to taxonomy
-    element morphology {xsd:string}, # POS and features
+    element termTech?,
+    element examples {list{example}}, # references to tokens in corpus
     element occurrences {list{xsd:string+}}, # references to tokens in corpus
-    (example+)? # selected examples from corpus (optional)
+    element morphologicalForms {list {morphologicalForm}},
+    element mwes* {list {mwe}}
 }
 
-mwes = element semantics {
+form = element morphologicalForm {
+    element feats {list{xsd:string}},
+    element phoneticVariants {list {variant}},
+    element orthographicVariants* {list {variant}}
+}
+
+variant = element variant {
+    attribute type? {"phonetic"|"heterographic"},
+    element form {xsd:string},
+    element frequency {xsd:int},
+    element ocurrences? {list{xsd:string+}}
+
+}
+
+mwe = element mwe {
     attribute serialId {xsd:int}, # internal numbering
-    element occurrences {list{xsd:string+}}, # references to tokens in corpus
+    element label {xsd:string+},
+    element literalTranslation {xsd:string+},
     element definition {xsd:string}, # in the case of term. tech., its definition
-    termTech?,
-    element semanticDomain {list{xsd:string+}}, # reference to taxonomy
-    (example+)? # selected examples from corpus (optional)
+    element termTech?,
+    element examples {list{example}},
+    element occurrences {list{xsd:string+}}, # references to tokens in corpus
 }
 
 termTech = element terminusTechnicus {
     attribute category {"astr"|"bot"|"econom"|"legal"|"measure"|"med"|"philos"|"pol"|"purity"|"ritual"|"theol"|"zool"}, 
-    element translation {xsd:string}, # the literal translation of the term. tech., its definition will be stored in semantics.definition 
+    element literalTranslation {xsd:string}, # the literal translation of the term. tech., its definition will be stored in semantics.definition 
+    element definition {xsd:string},
     biblioEntry?
 }
 
 example = element example {# selected examples from corpus
-    attribute sentenceId {xsd:string}
+    attribute sentenceId {xsd:string},
+    element sentenceText {xsd:string},
+    element sentenceTranslation
     }
 
 # optional additional information:
 internalReferences = element internalReferences {iRef+}
 
 iRef = element iRef {
-    attribute type {"base"|"synonym"|"antonym"|"prefix"|"suffix"}, # "constituent" is generated automatically based on "base"
-    attribute refId {xsd:entryID}
+    attribute type {"synonym"|"antonym"|"homonym"|"base"|"prefix"|"suffix"}, # "constituent" is generated automatically based on "base"
+    element refId {xsd:entryID}
 }
 
 # optional references to other dictionaries
 externalReferences = element externalReferences {eRef+}
 
-eRef = element eRef {
-    attribute refType {"Zand"|"loanTranslation"}, # Zand is the translation of an Avestan lexeme in MP
-    element language {xsd:string},
-    element lexeme {xsd:string},
-    biblioEntry?,
-    comment?
-}
-
 etymology = element etymology {
-    attribute loanWord boolean
+    attribute type {"inheritedFrom"|"originOf"|"loanWordFrom"|"loanWordIn"|"loanTranslationFrom"|"cognate"}
     element language {xsd:string},
     element lexeme {xsd:string},
-    biblioEntry?,
+    biblioEntry?, # either bibRef or hyperlink
     comment?
 }
 
-biblioEntry = element bibRef {list {xsd:string+}} # list of pointers to the bibliographic database
+biblioEntry = element biblioEntry {
+    attribute type {"writing"|"grammar"|"sense"|"etymology"},
+    element senseId? {xsd:ID}, # serialId of sense
+    element bibRef {xsd:string} 
+
+} # list of pointers to the bibliographic database
 comment = element comment {text}
