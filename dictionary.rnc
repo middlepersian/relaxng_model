@@ -71,7 +71,7 @@ example = element example {# selected examples from corpus
 internalReferences = element internalReferences {iRef+}
 
 iRef = element iRef {
-    attribute type {"base"|"constituent"|"synonym"|"antonym"},
+    attribute type {"base"|"synonym"|"antonym"|"prefix"|"suffix"}, # "constituent" is generated automatically based on "base"
     attribute refId {xsd:entryID}
 }
 
@@ -87,7 +87,7 @@ eRef = element eRef {
 }
 
 etymology = element etymology {
-    attribute LoanWord boolean
+    attribute loanWord boolean
     element language {xsd:string},
     element lexeme {xsd:string},
     biblioEntry?,
