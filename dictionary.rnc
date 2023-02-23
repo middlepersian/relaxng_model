@@ -10,9 +10,9 @@ entry = element entry {
     # the following three are a synopsis of information from the meaninggroup(s)
     # TODO: to generally follow TEI, we can put the following information into this structure:
     # form (including orth, phoneticVariants), gramGrp (pos), def (hierarchizedMeanings = senses) 
-    element morphology {list {xsd:string+}}, # union of POS (from corpus)
+    morphology,
     element relativeFrequency {xsd:int}, # from corpus, per 100,000
-    element ocurrences {list {xsd:string+}}, # union of sense:ocurrences
+    element occurrences {list {xsd:string+}}, # union of sense:occurrences
     element phoneticVariants: {list {variant}}, # union of phonti
     element orthographicVariants: {list {variant}}, # union of phonti
 
@@ -28,28 +28,31 @@ entry = element entry {
 
 morphology = element morphology {
     compositionType? {"simplex"|"derived"|"compound"|"derived compoun"}?,
-    pos {list {xsd:string+}}
+    pos {list {xsd:string+}}  # union of POS (from corpus)
 }
 
 
-hierarchizedMeanings = element hierarchizedMeanings {# one per entry
-    element meaninggroup {# one or more
-        attribute serialId {xsd:int}, # internal numbering
-        semantics+ {list {sense}} # an ordered list
-        }
+hierarchizedMeanings = element hierarchizedMeanings { # one per entry
+    meaninggroup+
+}
+    
+meaninggroup = element meaninggroup { # one or more
+    attribute serialId {xsd:int}, # internal numbering
+    element label? {xsd:string}, # the title of the meaning group
+    element semantics {list {semantic}} # an ordered list
 }
     
 semantic = element semantic {
     attribute serialId {xsd:int}, # internal numbering
     element morphology {xsd:string}, # POS
     element sense {xsd:string}, # in the case of term. tech., its definition
-    element definition {xsd:string}, # detailed description of the use of the lexeme
+    element definition? {xsd:string}, # detailed description of the use of the lexeme
     element semanticDomain {list{xsd:string+}}, # reference to taxonomy
     element termTech?,
+    element mwes* {list {mwe}},
     element examples {list{example}}, # references to tokens in corpus
     element occurrences {list{xsd:string+}}, # references to tokens in corpus
-    element morphologicalForms {list {morphologicalForm}},
-    element mwes* {list {mwe}}
+    element morphologicalForms {list {morphologicalForm}}
 }
 
 form = element morphologicalForm {
@@ -62,32 +65,31 @@ variant = element variant {
     attribute type? {"phonetic"|"heterographic"},
     element form {xsd:string},
     element frequency {xsd:int},
-    element ocurrences? {list{xsd:string+}}
+    element occurrences? {list{xsd:string+}}
 
 }
 
 mwe = element mwe {
     attribute serialId {xsd:int}, # internal numbering
     element label {xsd:string+},
-    element literalTranslation {xsd:string+},
-    element definition {xsd:string}, # in the case of term. tech., its definition
+    element literalTranslation? {xsd:string+},
+    element sense {xsd:string}, # in the case of term. tech., its definition
     element termTech?,
-    element examples {list{example}},
-    element occurrences {list{xsd:string+}}, # references to tokens in corpus
+    element examples? {list{example}},
+    element occurrences? {list{xsd:string+}}, # references to tokens in corpus
 }
 
 termTech = element terminusTechnicus {
     attribute category {"astr"|"bot"|"econom"|"legal"|"measure"|"med"|"philos"|"pol"|"purity"|"ritual"|"theol"|"zool"}, 
-    element literalTranslation {xsd:string}, # the literal translation of the term. tech., its definition will be stored in semantics.definition 
-    element definition {xsd:string},
-    biblioEntry?
+    element literalTranslation? {xsd:string}, # the literal translation of the term. tech., its definition will be stored in semantics.definition 
+    element definition {xsd:string}
 }
 
-example = element example {# selected examples from corpus
+example = element example { # selected examples from corpus
     attribute sentenceId {xsd:string},
-    element sentenceText {xsd:string},
-    element sentenceTranslation
-    }
+    element sentenceText {xsd:string}, # from corpus
+    element sentenceTranslation # from corpus
+}
 
 # optional additional information:
 internalReferences = element internalReferences {iRef+}
@@ -104,7 +106,6 @@ etymology = element etymology {
     attribute type {"inheritedFrom"|"originOf"|"loanWordFrom"|"loanWordIn"|"loanTranslationFrom"|"cognate"}
     element language {xsd:string},
     element lexeme {xsd:string},
-    biblioEntry?, # either bibRef or hyperlink
     comment?
 }
 
