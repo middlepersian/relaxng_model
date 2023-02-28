@@ -36,6 +36,8 @@ entry = element entry {
 
 morphology = element morphology {
     compositionType? {"simplex" | "derived" | "compound" | "derivedCompound"}?,
+    element composition? {xsd:string}, # the morphological analysis of a compound or a derived word
+    # independent of the existence of its constituents in the corpus, e.g. abāyišnīg > abāy-išn-īg
     pos {list {xsd:string+}}  # union of POS (from corpus)
 }
 
