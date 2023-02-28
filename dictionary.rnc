@@ -2,35 +2,49 @@ start = dictionary # dictionary metadata in TEI header
 
 dictionary = element dictionary {taxonomy, entry+} # reference to taxonomy and entries
 
-taxonomy = attribute taxonomy{string} # the taxonomy is defined in taxonomy.rng
+taxonomy = attribute taxonomy {string} # the taxonomy is defined in taxonomy.rng
 
 entry = element entry {
     attribute entryId {xsd:ID}, # unique ID for the entry
     element lemma {xsd:string}, # the normalized form
-    # the following three are a synopsis of information from the meaninggroup(s)
+    
+    # We use corssRef for linking different lemmata to one entry,
+    # for example different forms/readings of one lemma
+    attribute crossRef {xsd:IDREF}, # if the entry is a cross reference the other elements will be empty
+        
     # TODO: to generally follow TEI, we can put the following information into this structure:
-    # form (including orth, phoneticVariants), gramGrp (pos), def (hierarchizedMeanings = senses) 
+    # form (including orth, forms), gramGrp (pos), def (hierarchizedMeanings = senses) 
     morphology,
+    timeline, # shows the frequency of the occurrences of the lemma in different cent.
     element relativeFrequency {xsd:int}, # from corpus, per 100,000
-    element occurrences {list {xsd:string+}}, # union of sense:occurrences
-    element phoneticVariants: {list {variant}}, # union of phonti
-    element orthographicVariants: {list {variant}}, # union of phonti
+
+    element forms {list {variant}}, # attested types in the corpus linked to the lemma 
+    element orthographicVariants {list {variant}}, # union of transliterations
+    element occurrences {list{attestation}},
 
     hierarchizedMeanings,     
+    
     internalReferences?,
+    equivalents?,
     etymology?,
-    biblioEntry?, # pointer(s) to bibliography (optional)
+    biblioEntry?,
     comment?,
 
-    attribute stage {"inprogress"|"finished"},
+    attribute stage {"inprogress" | "finished" | "published"},
     attribute DOI {xsd:anyURI},
 }
 
 morphology = element morphology {
-    compositionType? {"simplex"|"derived"|"compound"|"derived compoun"}?,
+    compositionType? {"simplex" | "derived" | "compound" | "derivedCompound"}?,
     pos {list {xsd:string+}}  # union of POS (from corpus)
 }
 
+# In which centuries a lemma is attested can be retrieved from the metadata of the texts,
+# in which the lemma is attested
+timeline = element timeline {
+    attribute century {xsd:int},
+    attribute freq {xsd:int} # frequency of the tokens linked to the lemma in the century
+}
 
 hierarchizedMeanings = element hierarchizedMeanings { # one per entry
     meaninggroup+
@@ -38,50 +52,74 @@ hierarchizedMeanings = element hierarchizedMeanings { # one per entry
     
 meaninggroup = element meaninggroup { # one or more
     attribute serialId {xsd:int}, # internal numbering
-    element label? {xsd:string}, # the title of the meaning group
+    element label? {xsd:string}, # an optional label for the meaning group
     element semantics {list {semantic}} # an ordered list
 }
     
 semantic = element semantic {
     attribute serialId {xsd:int}, # internal numbering
     element morphology {xsd:string}, # POS
-    element sense {xsd:string}, # in the case of term. tech., its definition
-    element definition? {xsd:string}, # detailed description of the use of the lexeme
-    element semanticDomain {list{xsd:string+}}, # reference to taxonomy
+
+    semanticCore,
+    
+    element morphologicalForms {list {morphologicalForm}},
+    element mwes* {list {mwe}} # alphabetic sorted
+}
+
+semanticCore = element semanticCore {
+    element sense {xsd:string}, # in the case of term. tech. = its definition
+
+    # explanation may include detailed description of the use of the lexeme,
+    # reasons for transcription, prototypical examples
+    element explanation? {xsd:string},
+
+    element semanticDomain? {list{concept}}, # reference to taxonomy
     element termTech?,
-    element mwes* {list {mwe}},
-    element examples {list{example}}, # references to tokens in corpus
-    element occurrences {list{xsd:string+}}, # references to tokens in corpus
-    element morphologicalForms {list {morphologicalForm}}
+
+    # we decided to eliminate examples
+    # element examples? {list{example}}, # some examples for this sense of the lemma
+    element occurrences {list{attestation}},
 }
 
 form = element morphologicalForm {
-    element feats {list{xsd:string}},
-    element phoneticVariants {list {variant}},
+    element feats {list{xsd:string}}, # POS features
+    element forms {list {variant}},
     element orthographicVariants* {list {variant}}
 }
 
 variant = element variant {
-    attribute type? {"phonetic"|"heterographic"},
+    attribute script? {"Pahlavi" | "Pazand" | "Inscription" | "Manichean" | "Psalm"},
+    	# the script in which the token is written
+    attribute type? {"phonetic" | "heterographic"},
     element form {xsd:string},
     element frequency {xsd:int},
-    element occurrences? {list{xsd:string+}}
+    element occurrences? {list{attestation}}
 
 }
 
 mwe = element mwe {
     attribute serialId {xsd:int}, # internal numbering
-    element label {xsd:string+},
+    element label {xsd:string+}, # MP phrase
     element literalTranslation? {xsd:string+},
-    element sense {xsd:string}, # in the case of term. tech., its definition
-    element termTech?,
-    element examples? {list{example}},
-    element occurrences? {list{xsd:string+}}, # references to tokens in corpus
+
+    semanticCore
+}
+
+concept = element concept {
+    element taxonomyID {xsd:string+}, # this gives us the possiblity to give ref. to different taxonomies
+    element conceptID {xsd:IDREF}
+}
+
+attestation = element attestation  {
+    element passage {xsd:string},
+    element uncertain {xsd:boolean} # true if token.uncertain = reading or sense
 }
 
 termTech = element terminusTechnicus {
-    attribute category {"astr"|"bot"|"econom"|"legal"|"measure"|"med"|"philos"|"pol"|"purity"|"ritual"|"theol"|"zool"}, 
-    element literalTranslation? {xsd:string}, # the literal translation of the term. tech., its definition will be stored in semantics.definition 
+    attribute category {"astr" | "bot" | "econom" | "legal" | "measure" | "med" | "philos" | 
+    			"pol" | "purity" | "ritual" | "theol" | "zool"}, 
+    element literalTranslation? {xsd:string},
+    # the literal translation of the term. tech., its definition will be shown in semantics.definition 
     element definition {xsd:string}
 }
 
@@ -95,24 +133,35 @@ example = element example { # selected examples from corpus
 internalReferences = element internalReferences {iRef+}
 
 iRef = element iRef {
-    attribute type {"synonym"|"antonym"|"homonym"|"base"|"prefix"|"suffix"}, # "constituent" is generated automatically based on "base"
-    element refId {xsd:entryID}
+    attribute type {"synonym" | "antonym" | "homonym" | "constituent" | "prefix" | "suffix"},
+    # "constituent of" is generated automatically based on "constituent",
+    # e.g. for a-sar-rōšnīh we have constituent = a, sar, rōšnīh.
+    # From all of these lemmata, we have a link to a-sar-rōšnīh.
+    element refId {xsd:IDREF} # ref to another entry
 }
 
-# optional references to other dictionaries
-externalReferences = element externalReferences {eRef+}
+
+equivalents = element equivalents {
+    # from token.Avestan of all tokens linked to the lemma
+    element avEquivalents {list{xsd:string}},
+    element mpTranslations {list{xsd:string}}, # MP translations of all Av. equivalents
+    # a) Send every avEquivalents from the first list to CAB to receive their lemmata
+    # b) Retrieve the conjugated/declinated forms of every Av. lemma from CAB
+    # c) Find the lemmata of all MP tokens translating these Av. forms in MPCD corpus
+}
 
 etymology = element etymology {
-    attribute type {"inheritedFrom"|"originOf"|"loanWordFrom"|"loanWordIn"|"loanTranslationFrom"|"cognate"}
+    attribute type {"protoForm" | "cognate" | "loanWordFrom" | "loanWordIn" | 
+			"loanTranslationFrom"}
     element language {xsd:string},
     element lexeme {xsd:string},
+    element url? {xsd:anyURI},
     comment?
 }
 
 biblioEntry = element biblioEntry {
-    attribute type {"writing"|"grammar"|"sense"|"etymology"},
+    attribute type {"writing" | "grammar" | "sense" | "etymology"},
     element senseId? {xsd:ID}, # serialId of sense
-    element bibRef {xsd:string} 
-
-} # list of pointers to the bibliographic database
+    element bibRef {xsd:string} # ref to the bibliographic database
+} 
 comment = element comment {text}
