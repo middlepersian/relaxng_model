@@ -7,14 +7,14 @@ taxonomy = attribute taxonomy {string} # the taxonomy is defined in taxonomy.rng
 entry = element entry {
     attribute entryId {xsd:ID}, # unique ID for the entry
     element lemma {xsd:string}, # the normalized form
-    
+    element language {xsd:string}, # ISO 639-2 three-letter code
     # We use corssRef for linking different lemmata to one entry,
     # for example different forms/readings of one lemma
     attribute crossRef {xsd:IDREF}, # if the entry is a cross reference the other elements will be empty
         
     # TODO: to generally follow TEI, we can put the following information into this structure:
     # form (including orth, forms), gramGrp (pos), def (hierarchizedMeanings = senses) 
-    morphology,
+    morphology, # different components shown in different locations, see infra
     timeline, # shows the frequency of the occurrences of the lemma in different cent.
     element relativeFrequency {xsd:int}, # from corpus, per 100,000
 
@@ -35,10 +35,11 @@ entry = element entry {
 }
 
 morphology = element morphology {
-    compositionType? {"simplex" | "derived" | "compound" | "derivedCompound"}?,
+    element pos {list {xsd:string+}}  # union of POS (from corpus), shown after the lemma
+    element compositionType? {"simplex" | "derived" | "compound" | "derivedCompound"}?, # shown after the lemma
     element composition? {xsd:string}, # the morphological analysis of a compound or a derived word
-    # independent of the existence of its constituents in the corpus, e.g. abāyišnīg > abāy-išn-īg
-    pos {list {xsd:string+}}  # union of POS (from corpus)
+    # independent of the existence of its constituents in the corpus, e.g. abāyišnīg > abāy-išn-īg; 
+    # same level as lemma, but listed in internal references
 }
 
 # In which centuries a lemma is attested can be retrieved from the metadata of the texts,
@@ -49,10 +50,10 @@ timeline = element timeline {
 }
 
 hierarchizedMeanings = element hierarchizedMeanings { # one per entry
-    meaninggroup+
+    meaningGroup+
 }
     
-meaninggroup = element meaninggroup { # one or more
+meaningGroup = element meaningGroup { # one or more
     attribute serialId {xsd:int}, # internal numbering
     element label? {xsd:string}, # an optional label for the meaning group
     element semantics {list {semantic}} # an ordered list
@@ -90,8 +91,8 @@ form = element morphologicalForm {
 }
 
 variant = element variant {
-    attribute script? {"Pahlavi" | "Pazand" | "Inscription" | "Manichean" | "Psalm"},
-    	# the script in which the token is written
+    attribute script? {"Pahlavi" | "Pazand" | "Inscription" | "Manichean" | "Psalm"| "Arabic"},
+    	# the script in which the token is written; lemma language dependent
     attribute type? {"phonetic" | "heterographic"},
     element form {xsd:string},
     element frequency {xsd:int},
@@ -113,7 +114,7 @@ concept = element concept {
 }
 
 attestation = element attestation  {
-    element passage {xsd:string},
+    element tokenId {xsd:IDREF},
     element uncertain {xsd:boolean} # true if token.uncertain = reading or sense
 }
 
@@ -125,11 +126,11 @@ termTech = element terminusTechnicus {
     element definition {xsd:string}
 }
 
-example = element example { # selected examples from corpus
-    attribute sentenceId {xsd:string},
-    element sentenceText {xsd:string}, # from corpus
-    element sentenceTranslation # from corpus
-}
+# example = element example { # selected examples from corpus
+#     attribute sentenceId {xsd:string},
+#     element sentenceText {xsd:string}, # from corpus
+#     element sentenceTranslation # from corpus
+# }
 
 # optional additional information:
 internalReferences = element internalReferences {iRef+}
@@ -155,7 +156,7 @@ equivalents = element equivalents {
 etymology = element etymology {
     attribute type {"protoForm" | "cognate" | "loanWordFrom" | "loanWordIn" | 
 			"loanTranslationFrom"}
-    element language {xsd:string},
+    element language {xsd:string}, 
     element lexeme {xsd:string},
     element url? {xsd:anyURI},
     comment?
