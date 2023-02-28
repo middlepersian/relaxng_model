@@ -1,14 +1,18 @@
 start = taxonomy # taxonomy metadata in TEI header
 
-taxonomy = element taxonomy {domain+} # a tree of domains, cf. e.g. https://ht.ac.uk/category/
+taxonomy = element taxonomy {
+    element title {xsd:string},
+    element url {xsd:string},
+    domain+  # a tree of domains, cf. e.g. https://ht.ac.uk/category/
+}
 
 domain = element domain {
     attribute domainId {xsd:ID},
     attribute label {string},
-    (subDomain+)?, # a domain may have one or more subdomains
-    element lexemeRef {list{string+}} # a list of ponters to tokens in corpus
-    }
+    subDomain*, # a domain may have one or more subdomains
+    element lexemeRef {list{string+}} # a list of pointers to tokens in corpus
+}
     
 subDomain = element subDomain{
     attribute refId {xsd:IDREF} # pointer to a domain
-    }
+}
