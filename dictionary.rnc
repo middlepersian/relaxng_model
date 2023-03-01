@@ -109,7 +109,6 @@ mwe = element mwe {
 }
 
 concept = element concept {
-    element taxonomyID {xsd:string+}, # this gives us the possiblity to give ref. to different taxonomies
     element conceptID {xsd:IDREF}
 }
 
