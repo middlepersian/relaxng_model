@@ -1,18 +1,32 @@
 start = taxonomy # taxonomy metadata in TEI header
 
+#
+# taxonomy might be MPCD taxonomy or an external taxonomy
+# In the case of external taxonomies the domain list is empty
+#
 taxonomy = element taxonomy {
+    element taxonomyId {xsd:int},
     element title {xsd:string},
-    element url {xsd:string},
-    domain+  # a tree of domains, cf. e.g. https://ht.ac.uk/category/
+    element url {xsd:string}, # e.g. https://ht.ac.uk/category/
+    domain*  # a tree of domains, cf. e.g. https://ht.ac.uk/category/
 }
 
 domain = element domain {
-    attribute domainId {xsd:ID},
-    attribute label {string},
+    attribute domainId {xsd:ID}, # hierarchical domain ID which specifies the position of the concept in the taxonomy
+    attribute label {xsd:string},
+    attribute description {xsd:string},
+    element variants {list {variant}}, # list of equivalent to this domain in other taxonomies
     subDomain*, # a domain may have one or more subdomains
-    element lexemeRef {list{string+}} # a list of pointers to tokens in corpus
+    element lexemeRef {list{string+}} # a list of pointers to lemmata in the dictionary
 }
     
-subDomain = element subDomain{
+subDomain = element subDomain {
     attribute refId {xsd:IDREF} # pointer to a domain
 }
+
+equivalent = element equivalent {
+    element taxonomyID {xsd:string}, # this gives us the possiblity to give ref. to different taxonomies
+    attribute domain {xsd:string} # pointer to a domain in the refered taxonomy
+}
+
+
