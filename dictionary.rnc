@@ -6,8 +6,8 @@ taxonomy = attribute taxonomy {string} # the taxonomy is defined in taxonomy.rng
 
 entry = element entry {
     attribute entryId {xsd:ID}, # unique ID for the entry
-    element lemma {xsd:string}, # the normalized form
-    element language {xsd:string}, # ISO 639-2 three-letter code
+    element lemma {xsd:string}, # the normalized form    
+    language,
     # We use corssRef for linking different lemmata to one entry,
     # for example different forms/readings of one lemma
     attribute crossRef {xsd:IDREF}, # if the entry is a cross reference the other elements will be empty
@@ -18,9 +18,9 @@ entry = element entry {
     timeline, # shows the frequency of the occurrences of the lemma in different cent.
     element relativeFrequency {xsd:int}, # from corpus, per 100,000
 
-    element forms {list {variant}}, # attested types in the corpus linked to the lemma 
-    element orthographicVariants {list {variant}}, # union of transliterations
-    element occurrences {list{attestation}},
+    forms, # attested types in the corpus linked to the lemma 
+    orthographicVariants, # union of transliterations
+    occurrences,
 
     hierarchizedMeanings,
     
@@ -33,6 +33,13 @@ entry = element entry {
     attribute stage {"inprogress" | "finished" | "published"},
     attribute DOI {xsd:anyURI}
 }
+
+forms = element forms {list {variant}}
+label = element label {xsd:string}
+language = element language {xsd:string} # ISO 639-2 three-letter code
+literalTranslation = element literalTranslation {xsd:string}
+orthographicVariants = element orthographicVariants {list {variant}}
+
 
 morphology = element morphology {
     element pos {list {xsd:string+}},  # union of POS (from corpus), shown after the lemma
@@ -55,13 +62,13 @@ hierarchizedMeanings = element hierarchizedMeanings { # one per entry
     
 meaningGroup = element meaningGroup { # one or more
     attribute serialId {xsd:int}, # internal numbering
-    element label {xsd:string}?, # an optional label for the meaning group
+    label, # an optional label for the meaning group
     element semantics {list {semantic}} # an ordered list
 }
     
 semantic = element semantic {
     attribute serialId {xsd:int}, # internal numbering
-    element morphology {xsd:string}, # POS
+    morphology, # POS
 
     semanticCore,
     
@@ -81,13 +88,15 @@ semanticCore = element semanticCore {
 
     # we decided to eliminate examples
     # element examples? {list{example}}, # some examples for this sense of the lemma
-    element occurrences {list {attestation}}
+    occurrences
 }
+
+occurrences = element occurrences {list {attestation}}
 
 form = element morphologicalForm {
     element feats {list {xsd:string}}, # POS features
-    element forms {list {variant}},
-    element orthographicVariants {list {variant}}*
+    forms,
+    orthographicVariants*
 }
 
 variant = element variant {
@@ -96,13 +105,13 @@ variant = element variant {
     attribute type {"phonetic" | "heterographic"}?,
     element form {xsd:string},
     element frequency {xsd:int},
-    element occurrences {list {attestation}}?
+    occurrences?
 }
 
 mwe = element mwe {
     attribute serialId {xsd:int}, # internal numbering
-    element label {xsd:string+}, # MP phrase
-    element literalTranslation {xsd:string+}?,
+    label, # MP phrase
+    literalTranslation?,
     semanticCore
 }
 
@@ -118,7 +127,7 @@ attestation = element attestation  {
 termTech = element terminusTechnicus {
     attribute category {"astr" | "bot" | "econom" | "legal" | "measure" | "med" | "philos" | 
     			"pol" | "purity" | "ritual" | "theol" | "zool"}, 
-    element literalTranslation {xsd:string}?,
+    literalTranslation?,
     # the literal translation of the term. tech., its definition will be shown in semantics.definition 
     element definition {xsd:string}
 }
@@ -153,7 +162,7 @@ equivalents = element equivalents {
 etymology = element etymology {
     attribute type {"protoForm" | "cognate" | "loanWordFrom" | "loanWordIn" | 
 			"loanTranslationFrom"},
-    element language {xsd:string},
+    language,
     element lexeme {xsd:string},
     element url {xsd:anyURI}?,
     comment?
