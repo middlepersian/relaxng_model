@@ -22,7 +22,7 @@ entry = element entry {
     element orthographicVariants {list {variant}}, # union of transliterations
     element occurrences {list{attestation}},
 
-    hierarchizedMeanings,
+    hierarchizedMeanings,     
     
     internalReferences?,
     equivalents?,
@@ -31,13 +31,13 @@ entry = element entry {
     comment?,
 
     attribute stage {"inprogress" | "finished" | "published"},
-    attribute DOI {xsd:anyURI}
+    attribute DOI {xsd:anyURI},
 }
 
 morphology = element morphology {
-    element pos {list {xsd:string+}},  # union of POS (from corpus), shown after the lemma
-    element compositionType {"simplex" | "derived" | "compound" | "derivedCompound"}?, # shown after the lemma
-    element composition {xsd:string}? # the morphological analysis of a compound or a derived word
+    element pos {list {xsd:string+}}  # union of POS (from corpus), shown after the lemma
+    element compositionType? {"simplex" | "derived" | "compound" | "derivedCompound"}?, # shown after the lemma
+    element composition? {xsd:string}, # the morphological analysis of a compound or a derived word
     # independent of the existence of its constituents in the corpus, e.g. abāyišnīg > abāy-išn-īg; 
     # same level as lemma, but listed in internal references
 }
@@ -55,7 +55,7 @@ hierarchizedMeanings = element hierarchizedMeanings { # one per entry
     
 meaningGroup = element meaningGroup { # one or more
     attribute serialId {xsd:int}, # internal numbering
-    element label {xsd:string}?, # an optional label for the meaning group
+    element label? {xsd:string}, # an optional label for the meaning group
     element semantics {list {semantic}} # an ordered list
 }
     
@@ -66,7 +66,7 @@ semantic = element semantic {
     semanticCore,
     
     element morphologicalForms {list {morphologicalForm}},
-    element mwes {list {mwe}}* # alphabetic sorted
+    element mwes* {list {mwe}} # alphabetic sorted
 }
 
 semanticCore = element semanticCore {
@@ -74,35 +74,37 @@ semanticCore = element semanticCore {
 
     # explanation may include detailed description of the use of the lexeme,
     # reasons for transcription, prototypical examples
-    element explanation {xsd:string}?,
+    element explanation? {xsd:string},
 
-    element semanticDomain {list {concept}}?, # reference to taxonomy
-    termTech?,
+    element semanticDomain? {list{concept}}, # reference to taxonomy
+    element termTech?,
 
     # we decided to eliminate examples
     # element examples? {list{example}}, # some examples for this sense of the lemma
-    element occurrences {list {attestation}}
+    element occurrences {list{attestation}},
 }
 
 form = element morphologicalForm {
-    element feats {list {xsd:string}}, # POS features
+    element feats {list{xsd:string}}, # POS features
     element forms {list {variant}},
-    element orthographicVariants {list {variant}}*
+    element orthographicVariants* {list {variant}}
 }
 
 variant = element variant {
-    attribute script {"Pahlavi" | "Pazand" | "Inscription" | "Manichean" | "Psalm"| "Arabic"}?,
-    # the script in which the token is written; lemma language dependent
-    attribute type {"phonetic" | "heterographic"}?,
+    attribute script? {"Pahlavi" | "Pazand" | "Inscription" | "Manichean" | "Psalm"| "Arabic"},
+    	# the script in which the token is written; lemma language dependent
+    attribute type? {"phonetic" | "heterographic"},
     element form {xsd:string},
     element frequency {xsd:int},
-    element occurrences {list {attestation}}?
+    element occurrences? {list{attestation}}
+
 }
 
 mwe = element mwe {
     attribute serialId {xsd:int}, # internal numbering
     element label {xsd:string+}, # MP phrase
-    element literalTranslation {xsd:string+}?,
+    element literalTranslation? {xsd:string+},
+
     semanticCore
 }
 
@@ -118,7 +120,7 @@ attestation = element attestation  {
 termTech = element terminusTechnicus {
     attribute category {"astr" | "bot" | "econom" | "legal" | "measure" | "med" | "philos" | 
     			"pol" | "purity" | "ritual" | "theol" | "zool"}, 
-    element literalTranslation {xsd:string}?,
+    element literalTranslation? {xsd:string},
     # the literal translation of the term. tech., its definition will be shown in semantics.definition 
     element definition {xsd:string}
 }
@@ -144,7 +146,7 @@ iRef = element iRef {
 equivalents = element equivalents {
     # from token.Avestan of all tokens linked to the lemma
     element avEquivalents {list{xsd:string}},
-    element mpTranslations {list{xsd:string}} # MP translations of all Av. equivalents
+    element mpTranslations {list{xsd:string}}, # MP translations of all Av. equivalents
     # a) Send every avEquivalents from the first list to CAB to receive their lemmata
     # b) Retrieve the conjugated/declinated forms of every Av. lemma from CAB
     # c) Find the lemmata of all MP tokens translating these Av. forms in MPCD corpus
@@ -152,16 +154,16 @@ equivalents = element equivalents {
 
 etymology = element etymology {
     attribute type {"protoForm" | "cognate" | "loanWordFrom" | "loanWordIn" | 
-			"loanTranslationFrom"},
-    element language {xsd:string},
+			"loanTranslationFrom"}
+    element language {xsd:string}, 
     element lexeme {xsd:string},
-    element url {xsd:anyURI}?,
+    element url? {xsd:anyURI},
     comment?
 }
 
 biblioEntry = element biblioEntry {
     attribute type {"writing" | "grammar" | "sense" | "etymology"},
-    element senseId {xsd:ID}?, # serialId of sense
+    element senseId? {xsd:ID}, # serialId of sense
     element bibRef {xsd:string} # ref to the bibliographic database
 } 
 comment = element comment {text}

@@ -1,0 +1,16 @@
+<?xml encoding="UTF-8"?>
+
+<!-- dictionary metadata in TEI header -->
+
+<!ELEMENT dictionary (entry)+>
+
+<!-- reference to taxonomy and entries -->
+
+<!ATTLIST dictionary
+  taxonomy CDATA #REQUIRED>
+
+<!-- the taxonomy is defined in taxonomy.rng -->
+
+<!ELEMENT entry EMPTY>
+<!ATTLIST entry
+  entryId ID #REQUIRED>
