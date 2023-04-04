@@ -1,0 +1,189 @@
+<?xml encoding="UTF-8"?>
+
+<!-- dictionary metadata in TEI header -->
+
+<!ELEMENT dictionary (entry)+>
+
+<!-- reference to taxonomy and entries -->
+
+<!ATTLIST dictionary
+  taxonomy CDATA #REQUIRED>
+
+<!-- the taxonomy is defined in taxonomy.rng -->
+
+<!ELEMENT entry (lemma,language,morphology,timeline,relativeFrequency,
+                 forms,orthographicVariants,occurrences,
+                 hierarchizedMeanings,internalReferences?,equivalents?,
+                 etymology?,biblioEntry?,comment?)>
+<!ATTLIST entry
+  entryId ID #REQUIRED
+  crossRef IDREF #REQUIRED
+  stage (inprogress|finished|published) #REQUIRED
+  DOI CDATA #REQUIRED>
+
+<!-- unique ID for the entry -->
+
+<!ELEMENT lemma (#PCDATA)>
+
+<!-- shows the frequency of the occurrences of the lemma in different cent. -->
+
+<!ELEMENT relativeFrequency (#PCDATA)>
+
+<!ELEMENT forms (#PCDATA)>
+
+<!ELEMENT label (#PCDATA)>
+
+<!ELEMENT language (#PCDATA)>
+
+<!-- ISO 639-2 three-letter code -->
+
+<!ELEMENT literalTranslation (#PCDATA)>
+
+<!ELEMENT orthographicVariants (#PCDATA)>
+
+<!ELEMENT morphology (pos,compositionType?,composition?)>
+
+<!ELEMENT pos (#PCDATA)>
+
+<!-- union of POS (from corpus), shown after the lemma -->
+
+<!ELEMENT compositionType (#PCDATA)>
+
+<!-- shown after the lemma -->
+
+<!ELEMENT composition (#PCDATA)>
+
+<!--
+In which centuries a lemma is attested can be retrieved from the metadata of the texts,
+in which the lemma is attested
+-->
+
+<!ELEMENT timeline EMPTY>
+<!ATTLIST timeline
+  century CDATA #REQUIRED
+  freq CDATA #REQUIRED>
+
+<!ELEMENT hierarchizedMeanings (meaningGroup)+>
+
+<!ELEMENT meaningGroup (label,semantics)>
+<!ATTLIST meaningGroup
+  serialId CDATA #REQUIRED>
+
+<!-- an optional label for the meaning group -->
+
+<!ELEMENT semantics (#PCDATA)>
+
+<!ELEMENT semantic (morphology,semanticCore,morphologicalForms,mwes*)>
+<!ATTLIST semantic
+  serialId CDATA #REQUIRED>
+
+<!ELEMENT morphologicalForms (#PCDATA)>
+
+<!ELEMENT mwes (#PCDATA)>
+
+<!ELEMENT semanticCore (sense,explanation?,semanticDomain?,
+                        terminusTechnicus?,occurrences)>
+
+<!ELEMENT sense (#PCDATA)>
+
+<!-- in the case of term. tech. = its definition -->
+
+<!--
+explanation may include detailed description of the use of the lexeme,
+reasons for transcription, prototypical examples
+-->
+
+<!ELEMENT explanation (#PCDATA)>
+
+<!ELEMENT semanticDomain (#PCDATA)>
+
+<!ELEMENT occurrences (#PCDATA)>
+
+<!ELEMENT morphologicalForm (feats,forms,orthographicVariants*)>
+
+<!ELEMENT feats (#PCDATA)>
+
+<!ELEMENT variant (form,frequency,occurrences?)>
+<!ATTLIST variant
+  script (Pahlavi|Pazand|Inscription|Manichean|Psalm|Arabic) #IMPLIED
+  type (phonetic|heterographic) #IMPLIED>
+
+<!ELEMENT form (#PCDATA)>
+
+<!ELEMENT frequency (#PCDATA)>
+
+<!ELEMENT mwe (label,literalTranslation?,semanticCore)>
+<!ATTLIST mwe
+  serialId CDATA #REQUIRED>
+
+<!ELEMENT concept (conceptID)>
+
+<!ELEMENT conceptID (#PCDATA)>
+
+<!ELEMENT attestation (tokenId,uncertain)>
+
+<!ELEMENT tokenId (#PCDATA)>
+
+<!ELEMENT uncertain (#PCDATA)>
+
+<!ELEMENT terminusTechnicus (literalTranslation?,definition)>
+<!ATTLIST terminusTechnicus
+  category (astr|bot|econom|legal|measure|med|philos|pol|purity|ritual
+            |theol|zool) #REQUIRED>
+
+<!-- the literal translation of the term. tech., its definition will be shown in semantics.definition  -->
+
+<!ELEMENT definition (#PCDATA)>
+
+<!--
+example = element example { # selected examples from corpus
+    attribute sentenceId {xsd:string},
+    element sentenceText {xsd:string}, # from corpus
+    element sentenceTranslation # from corpus
+}
+-->
+
+<!-- optional additional information: -->
+
+<!ELEMENT internalReferences (iRef)+>
+
+<!ELEMENT iRef (refId)>
+<!ATTLIST iRef
+  type (synonym|antonym|homonym|constituent|prefix|suffix) #REQUIRED>
+
+<!--
+"constituent of" is generated automatically based on "constituent",
+e.g. for a-sar-rōšnīh we have constituent = a, sar, rōšnīh.
+From all of these lemmata, we have a link to a-sar-rōšnīh.
+-->
+
+<!ELEMENT refId (#PCDATA)>
+
+<!ELEMENT equivalents (avEquivalents,mpTranslations)>
+
+<!-- from token.Avestan of all tokens linked to the lemma -->
+
+<!ELEMENT avEquivalents (#PCDATA)>
+
+<!ELEMENT mpTranslations (#PCDATA)>
+
+<!ELEMENT etymology (language,lexeme,url?,comment?)>
+<!ATTLIST etymology
+  type (protoForm|cognate|loanWordFrom|loanWordIn
+        |loanTranslationFrom) #REQUIRED>
+
+<!ELEMENT lexeme (#PCDATA)>
+
+<!ELEMENT url (#PCDATA)>
+
+<!ELEMENT biblioEntry (senseId?,bibRef)>
+<!ATTLIST biblioEntry
+  type (writing|grammar|sense|etymology) #REQUIRED>
+
+<!ELEMENT senseId (#PCDATA)>
+
+<!-- serialId of sense -->
+
+<!ELEMENT bibRef (#PCDATA)>
+
+<!ELEMENT comment (#PCDATA)>

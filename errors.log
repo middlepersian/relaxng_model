@@ -1,0 +1,18 @@
+dictionary.rnc:156:5: error: sorry, not handled: duplicate declaration of element "language" from namespace ""
+dictionary.rnc:10:5: error: other element declaration is here
+dictionary.rnc:64:5: error: sorry, not handled: duplicate declaration of element "morphology" from namespace ""
+dictionary.rnc:37:14: error: other element declaration is here
+dictionary.rnc:84:5: error: sorry, not handled: duplicate declaration of element "occurrences" from namespace ""
+dictionary.rnc:23:5: error: other element declaration is here
+dictionary.rnc:89:5: error: sorry, not handled: duplicate declaration of element "forms" from namespace ""
+dictionary.rnc:21:5: error: other element declaration is here
+dictionary.rnc:90:5: error: sorry, not handled: duplicate declaration of element "orthographicVariants" from namespace ""
+dictionary.rnc:22:5: error: other element declaration is here
+dictionary.rnc:99:5: error: sorry, not handled: duplicate declaration of element "occurrences" from namespace ""
+dictionary.rnc:23:5: error: other element declaration is here
+dictionary.rnc:104:30: error: sorry, cannot handle this kind of "oneOrMore"
+dictionary.rnc:104:5: error: sorry, not handled: duplicate declaration of element "label" from namespace ""
+dictionary.rnc:58:5: error: other element declaration is here
+dictionary.rnc:105:43: error: sorry, cannot handle this kind of "oneOrMore"
+dictionary.rnc:105:5: error: sorry, not handled: duplicate declaration of element "literalTranslation" from namespace ""
+dictionary.rnc:121:5: error: other element declaration is here
