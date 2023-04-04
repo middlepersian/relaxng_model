@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <!-- dictionary metadata in TEI header -->
+  <xs:element name="dictionary">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="entry"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="taxonomy"/>
+    </xs:complexType>
+  </xs:element>
+  <!-- reference to taxonomy and entries -->
+  <xs:attributeGroup name="taxonomy">
+    <xs:attribute name="taxonomy" use="required" type="xs:string"/>
+  </xs:attributeGroup>
+  <!-- the taxonomy is defined in taxonomy.rng -->
+  <xs:element name="entry">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="lemma"/>
+        <xs:element minOccurs="0" ref="headword"/>
+        <xs:element ref="language"/>
+        <xs:element ref="morphology"/>
+        <xs:element ref="timeline"/>
+        <xs:element ref="relativeFrequency"/>
+        <xs:element ref="types"/>
+        <xs:element ref="orthographicVariants"/>
+        <xs:element ref="occurrences"/>
+        <xs:element ref="hierarchizedSenses"/>
+        <xs:element minOccurs="0" ref="internalReferences"/>
+        <xs:element minOccurs="0" ref="equivalents"/>
+        <xs:element minOccurs="0" ref="etymology"/>
+        <xs:element minOccurs="0" ref="biblioEntry"/>
+        <xs:element minOccurs="0" ref="comment"/>
+      </xs:sequence>
+      <xs:attribute name="entryId" use="required" type="xs:ID"/>
+      <xs:attribute name="crossRef" use="required" type="xs:IDREF"/>
+      <xs:attribute name="stage" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="inprogress"/>
+            <xs:enumeration value="finished"/>
+            <xs:enumeration value="published"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="DOI" use="required" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="lemma" type="xs:string"/>
+  <xs:element name="relativeFrequency" type="xs:int"/>
+  <xs:element name="headword" type="xs:string"/>
+  <xs:element name="label" type="xs:string"/>
+  <xs:element name="language" type="xs:string"/>
+  <!-- ISO 639-2 three-letter code -->
+  <xs:element name="frequency" type="xs:int"/>
+  <xs:element name="types">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="type"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="type">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="transcription"/>
+        <xs:element ref="frequency"/>
+        <xs:element minOccurs="0" ref="occurrences"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="transcription" type="xs:string"/>
+  <xs:element name="orthographicVariants">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="orthographicVariant"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="orthographicVariant">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="transliteration"/>
+        <xs:element ref="frequency"/>
+        <xs:element minOccurs="0" ref="occurrences"/>
+      </xs:sequence>
+      <xs:attribute name="script">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="Pahlavi"/>
+            <xs:enumeration value="Pazand"/>
+            <xs:enumeration value="Inscription"/>
+            <xs:enumeration value="Manichean"/>
+            <xs:enumeration value="Psalm"/>
+            <xs:enumeration value="Arabic"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="type">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="phonetic"/>
+            <xs:enumeration value="heterographic"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="transliteration" type="xs:string"/>
+  <xs:element name="morphology">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="pos"/>
+        <xs:element minOccurs="0" ref="composition"/>
+        <xs:element minOccurs="0" ref="stem"/>
+      </xs:sequence>
+      <xs:attribute name="compositionType" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="simplex"/>
+            <xs:enumeration value="derived"/>
+            <xs:enumeration value="compound"/>
+            <xs:enumeration value="derivedCompound"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="pos">
+    <xs:simpleType>
+      <xs:restriction>
+        <xs:simpleType>
+          <xs:list itemType="xs:string"/>
+        </xs:simpleType>
+        <xs:minLength value="1"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="composition" type="xs:string"/>
+  <xs:element name="stem">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="type" use="required">
+            <xs:simpleType>
+              <xs:restriction base="xs:token">
+                <xs:enumeration value="past"/>
+                <xs:enumeration value="present"/>
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:attribute>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <!--
+    In which centuries a lemma is attested can be retrieved from the metadata of the texts,
+    in which the texts are authored.
+  -->
+  <xs:element name="timeline">
+    <xs:complexType>
+      <xs:attribute name="century" use="required" type="xs:int"/>
+      <xs:attribute name="freq" use="required" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="hierarchizedSenses">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="semantic"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="semantic">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="node"/>
+        <xs:element ref="semanticCore"/>
+        <xs:element ref="morphologicalForms"/>
+        <xs:element ref="mwes"/>
+      </xs:sequence>
+      <xs:attribute name="serialId" use="required" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="morphologicalForms">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="morphologicalForm"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="mwes">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="mwe"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="semanticCore">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="sense"/>
+        <xs:element minOccurs="0" ref="explanation"/>
+        <xs:element minOccurs="0" ref="grammar"/>
+        <xs:element minOccurs="0" ref="semanticDomain"/>
+        <xs:element minOccurs="0" ref="terminusTechnicus"/>
+        <xs:element ref="occurrences"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="sense" type="xs:string"/>
+  <xs:element name="explanation" type="xs:string"/>
+  <xs:element name="grammar" type="xs:string"/>
+  <xs:element name="semanticDomain">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="concept"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="node">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="label"/>
+        <xs:element minOccurs="0" ref="node"/>
+      </xs:sequence>
+      <xs:attribute name="serialId" use="required" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="occurrences">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="occurrence"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="occurrence">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="uncertain"/>
+      </xs:sequence>
+      <xs:attribute name="tokenId" use="required" type="xs:IDREF"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="uncertain" type="xs:boolean"/>
+  <xs:element name="morphologicalForm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="feats"/>
+        <xs:element ref="types"/>
+        <xs:element ref="orthographicVariants"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="feats">
+    <xs:simpleType>
+      <xs:restriction>
+        <xs:simpleType>
+          <xs:list itemType="xs:string"/>
+        </xs:simpleType>
+        <xs:length value="1"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="concept">
+    <xs:complexType>
+      <xs:attribute name="conceptID" use="required" type="xs:IDREF"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="mwe">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="label"/>
+        <xs:element minOccurs="0" ref="literalTranslation"/>
+        <xs:element ref="semanticCore"/>
+      </xs:sequence>
+      <xs:attribute name="serialId" use="required" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="terminusTechnicus">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="literalTranslation"/>
+        <xs:element ref="definition"/>
+      </xs:sequence>
+      <xs:attribute name="category" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="astr"/>
+            <xs:enumeration value="bot"/>
+            <xs:enumeration value="econom"/>
+            <xs:enumeration value="legal"/>
+            <xs:enumeration value="measure"/>
+            <xs:enumeration value="med"/>
+            <xs:enumeration value="philos"/>
+            <xs:enumeration value="pol"/>
+            <xs:enumeration value="purity"/>
+            <xs:enumeration value="ritual"/>
+            <xs:enumeration value="theol"/>
+            <xs:enumeration value="zool"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="definition" type="xs:string"/>
+  <xs:element name="literalTranslation" type="xs:string"/>
+  <!--
+    example = element example { # selected examples from corpus
+        attribute sentenceId {xsd:string},
+        element sentenceText {xsd:string}, # from corpus
+        element sentenceTranslation # from corpus
+    }
+  -->
+  <!-- optional additional information: -->
+  <xs:element name="internalReferences">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="iRef"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="iRef">
+    <xs:complexType>
+      <xs:attribute name="type" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="synonym"/>
+            <xs:enumeration value="antonym"/>
+            <xs:enumeration value="homonym"/>
+            <xs:enumeration value="base"/>
+            <xs:enumeration value="constituent"/>
+            <xs:enumeration value="prefix"/>
+            <xs:enumeration value="suffix"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="refId" use="required" type="xs:IDREF"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="equivalents">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="avEquivalents"/>
+        <xs:element ref="mpTranslations"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="avEquivalents">
+    <xs:simpleType>
+      <xs:restriction>
+        <xs:simpleType>
+          <xs:list itemType="xs:string"/>
+        </xs:simpleType>
+        <xs:length value="1"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="mpTranslations">
+    <xs:simpleType>
+      <xs:restriction>
+        <xs:simpleType>
+          <xs:list itemType="xs:string"/>
+        </xs:simpleType>
+        <xs:length value="1"/>
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:element>
+  <xs:element name="etymology">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="language"/>
+        <xs:element ref="lexeme"/>
+        <xs:element minOccurs="0" ref="url"/>
+        <xs:element minOccurs="0" ref="comment"/>
+      </xs:sequence>
+      <xs:attribute name="type" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="protoForm"/>
+            <xs:enumeration value="cognate"/>
+            <xs:enumeration value="loanWordFrom"/>
+            <xs:enumeration value="loanWordIn"/>
+            <xs:enumeration value="loanTranslationFrom"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="lexeme" type="xs:string"/>
+  <xs:element name="url" type="xs:anyURI"/>
+  <xs:element name="biblioEntry">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="bibRef"/>
+      </xs:sequence>
+      <xs:attribute name="type" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="writing"/>
+            <xs:enumeration value="grammar"/>
+            <xs:enumeration value="sense"/>
+            <xs:enumeration value="etymology"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="senseId" type="xs:ID"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="bibRef" type="xs:string"/>
+  <xs:element name="comment" type="xs:string"/>
+</xs:schema>

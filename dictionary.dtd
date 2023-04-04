@@ -11,10 +11,10 @@
 
 <!-- the taxonomy is defined in taxonomy.rng -->
 
-<!ELEMENT entry (lemma,language,morphology,timeline,relativeFrequency,
-                 forms,orthographicVariants,occurrences,
-                 hierarchizedMeanings,internalReferences?,equivalents?,
-                 etymology?,biblioEntry?,comment?)>
+<!ELEMENT entry (lemma,headword?,language,morphology,timeline,
+                 relativeFrequency,types,orthographicVariants,
+                 occurrences,hierarchizedSenses,internalReferences?,
+                 equivalents?,etymology?,biblioEntry?,comment?)>
 <!ATTLIST entry
   entryId ID #REQUIRED
   crossRef IDREF #REQUIRED
@@ -29,7 +29,7 @@
 
 <!ELEMENT relativeFrequency (#PCDATA)>
 
-<!ELEMENT forms (#PCDATA)>
+<!ELEMENT headword (#PCDATA)>
 
 <!ELEMENT label (#PCDATA)>
 
@@ -37,25 +37,42 @@
 
 <!-- ISO 639-2 three-letter code -->
 
-<!ELEMENT literalTranslation (#PCDATA)>
+<!ELEMENT frequency (#PCDATA)>
 
-<!ELEMENT orthographicVariants (#PCDATA)>
+<!ELEMENT types (type)+>
 
-<!ELEMENT morphology (pos,compositionType?,composition?)>
+<!ELEMENT type (transcription,frequency,occurrences?)>
+
+<!ELEMENT transcription (#PCDATA)>
+
+<!ELEMENT orthographicVariants (orthographicVariant)+>
+
+<!ELEMENT orthographicVariant (transliteration,frequency,occurrences?)>
+<!ATTLIST orthographicVariant
+  script (Pahlavi|Pazand|Inscription|Manichean|Psalm|Arabic) #IMPLIED
+  type (phonetic|heterographic) #IMPLIED>
+
+<!ELEMENT transliteration (#PCDATA)>
+
+<!ELEMENT morphology (pos,composition?,stem?)>
+<!ATTLIST morphology
+  compositionType (simplex|derived|compound|derivedCompound) #REQUIRED>
+
+<!-- shown after the lemma -->
 
 <!ELEMENT pos (#PCDATA)>
 
 <!-- union of POS (from corpus), shown after the lemma -->
 
-<!ELEMENT compositionType (#PCDATA)>
-
-<!-- shown after the lemma -->
-
 <!ELEMENT composition (#PCDATA)>
+
+<!ELEMENT stem (#PCDATA)>
+<!ATTLIST stem
+  type (past|present) #REQUIRED>
 
 <!--
 In which centuries a lemma is attested can be retrieved from the metadata of the texts,
-in which the lemma is attested
+in which the texts are authored.
 -->
 
 <!ELEMENT timeline EMPTY>
@@ -63,25 +80,17 @@ in which the lemma is attested
   century CDATA #REQUIRED
   freq CDATA #REQUIRED>
 
-<!ELEMENT hierarchizedMeanings (meaningGroup)+>
+<!ELEMENT hierarchizedSenses (semantic)+>
 
-<!ELEMENT meaningGroup (label,semantics)>
-<!ATTLIST meaningGroup
-  serialId CDATA #REQUIRED>
-
-<!-- an optional label for the meaning group -->
-
-<!ELEMENT semantics (#PCDATA)>
-
-<!ELEMENT semantic (morphology,semanticCore,morphologicalForms,mwes*)>
+<!ELEMENT semantic (node?,semanticCore,morphologicalForms,mwes)>
 <!ATTLIST semantic
   serialId CDATA #REQUIRED>
 
-<!ELEMENT morphologicalForms (#PCDATA)>
+<!ELEMENT morphologicalForms (morphologicalForm)+>
 
-<!ELEMENT mwes (#PCDATA)>
+<!ELEMENT mwes (mwe)*>
 
-<!ELEMENT semanticCore (sense,explanation?,semanticDomain?,
+<!ELEMENT semanticCore (sense,explanation?,grammar?,semanticDomain?,
                         terminusTechnicus?,occurrences)>
 
 <!ELEMENT sense (#PCDATA)>
@@ -90,41 +99,48 @@ in which the lemma is attested
 
 <!--
 explanation may include detailed description of the use of the lexeme,
-reasons for transcription, prototypical examples
+reasons for transcription, and prototypical examples
 -->
 
 <!ELEMENT explanation (#PCDATA)>
 
-<!ELEMENT semanticDomain (#PCDATA)>
+<!--
+grammar may include some grammatical explanations about the lemma
+including valences
+-->
 
-<!ELEMENT occurrences (#PCDATA)>
+<!ELEMENT grammar (#PCDATA)>
 
-<!ELEMENT morphologicalForm (feats,forms,orthographicVariants*)>
+<!--
+reference to the taxonomy
+We will take the liberty to eventually link a sense to more than one concept
+-->
+
+<!ELEMENT semanticDomain (concept)+>
+
+<!ELEMENT node (label,node?)>
+<!ATTLIST node
+  serialId CDATA #REQUIRED>
+
+<!ELEMENT occurrences (occurrence)+>
+
+<!ELEMENT occurrence (uncertain)>
+<!ATTLIST occurrence
+  tokenId IDREF #REQUIRED>
+
+<!ELEMENT uncertain (#PCDATA)>
+
+<!ELEMENT morphologicalForm (feats,types,orthographicVariants)>
 
 <!ELEMENT feats (#PCDATA)>
 
-<!ELEMENT variant (form,frequency,occurrences?)>
-<!ATTLIST variant
-  script (Pahlavi|Pazand|Inscription|Manichean|Psalm|Arabic) #IMPLIED
-  type (phonetic|heterographic) #IMPLIED>
-
-<!ELEMENT form (#PCDATA)>
-
-<!ELEMENT frequency (#PCDATA)>
+<!ELEMENT concept EMPTY>
+<!ATTLIST concept
+  conceptID IDREF #REQUIRED>
 
 <!ELEMENT mwe (label,literalTranslation?,semanticCore)>
 <!ATTLIST mwe
   serialId CDATA #REQUIRED>
-
-<!ELEMENT concept (conceptID)>
-
-<!ELEMENT conceptID (#PCDATA)>
-
-<!ELEMENT attestation (tokenId,uncertain)>
-
-<!ELEMENT tokenId (#PCDATA)>
-
-<!ELEMENT uncertain (#PCDATA)>
 
 <!ELEMENT terminusTechnicus (literalTranslation?,definition)>
 <!ATTLIST terminusTechnicus
@@ -134,6 +150,8 @@ reasons for transcription, prototypical examples
 <!-- the literal translation of the term. tech., its definition will be shown in semantics.definition  -->
 
 <!ELEMENT definition (#PCDATA)>
+
+<!ELEMENT literalTranslation (#PCDATA)>
 
 <!--
 example = element example { # selected examples from corpus
@@ -147,17 +165,11 @@ example = element example { # selected examples from corpus
 
 <!ELEMENT internalReferences (iRef)+>
 
-<!ELEMENT iRef (refId)>
+<!ELEMENT iRef EMPTY>
 <!ATTLIST iRef
-  type (synonym|antonym|homonym|constituent|prefix|suffix) #REQUIRED>
-
-<!--
-"constituent of" is generated automatically based on "constituent",
-e.g. for a-sar-rōšnīh we have constituent = a, sar, rōšnīh.
-From all of these lemmata, we have a link to a-sar-rōšnīh.
--->
-
-<!ELEMENT refId (#PCDATA)>
+  type (synonym|antonym|homonym|base|constituent|prefix
+        |suffix) #REQUIRED
+  refId IDREF #REQUIRED>
 
 <!ELEMENT equivalents (avEquivalents,mpTranslations)>
 
@@ -176,11 +188,10 @@ From all of these lemmata, we have a link to a-sar-rōšnīh.
 
 <!ELEMENT url (#PCDATA)>
 
-<!ELEMENT biblioEntry (senseId?,bibRef)>
+<!ELEMENT biblioEntry (bibRef)>
 <!ATTLIST biblioEntry
-  type (writing|grammar|sense|etymology) #REQUIRED>
-
-<!ELEMENT senseId (#PCDATA)>
+  type (writing|grammar|sense|etymology) #REQUIRED
+  senseId ID #IMPLIED>
 
 <!-- serialId of sense -->
 

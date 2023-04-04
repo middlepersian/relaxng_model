@@ -1,0 +1,26 @@
+<element>
+    <lemma>abāyišnīg</lemma>
+    <morphology compositionType="derived">
+        <pos>NOUN</pos>
+        <composition>abāy-išn-īg</composition>
+        <stems></stems>
+    </morphology>
+    <internalReferences>
+        <iRef type="constituent">abāy</iRef>
+        <iRef type="suffix">išn</iRef>
+        <iRef type="suffix">īg</iRef>
+    </internalReferences>
+</element>
+
+<html>
+<element>
+    abāyišnīg (NOUN, derived)
+    +
+    composition: abāy-išn-īg
+    alternative_stems: abāy-
+    frequency: 187 per million
+    timeline: <chart>
+
+
+</element>
+</html>
