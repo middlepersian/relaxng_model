@@ -6,9 +6,11 @@ taxonomy = attribute taxonomy {string} # the taxonomy is defined in taxonomy.rng
 
 entry = element entry {
     attribute entryId {xsd:ID}, # unique ID for the entry
-    element lemma {xsd:string}, # the normalized form    
+    element lemma {xsd:string}, # the normalized form
+    headword?, # If headword is NULL, lemma (and POSs) will be showed as the headword of the entry
+            # We will use headword for e.g. verbs with different infinitive forms and present stems
     language,
-    # We use corssRef for linking different lemmata to one entry,
+    # We use crossRef for linking different lemmata to one entry,
     # for example different forms/readings of one lemma
     attribute crossRef {xsd:IDREF}, # if the entry is a cross reference the other elements will be empty
         
@@ -18,12 +20,10 @@ entry = element entry {
     timeline, # shows the frequency of the occurrences of the lemma in different cent.
     element relativeFrequency {xsd:int}, # from corpus, per 100,000
 
-    forms, # attested types in the corpus linked to the lemma 
+    types, # attested types in the corpus linked to the lemma 
     orthographicVariants, # union of transliterations
     occurrences,
-
-    hierarchizedMeanings,
-    
+    hierarchizedSenses,
     internalReferences?,
     equivalents?,
     etymology?,
@@ -34,78 +34,107 @@ entry = element entry {
     attribute DOI {xsd:anyURI}
 }
 
-forms = element forms {list {variant}}
+headword = element headword {xsd:string}
 label = element label {xsd:string}
 language = element language {xsd:string} # ISO 639-2 three-letter code
-literalTranslation = element literalTranslation {xsd:string}
-orthographicVariants = element orthographicVariants {list {variant}}
+frequency = element frequency {xsd:int}
 
-
-morphology = element morphology {
-    element pos {list {xsd:string+}},  # union of POS (from corpus), shown after the lemma
-    element compositionType {"simplex" | "derived" | "compound" | "derivedCompound"}?, # shown after the lemma
-    element composition {xsd:string}? # the morphological analysis of a compound or a derived word
-    # independent of the existence of its constituents in the corpus, e.g. abāyišnīg > abāy-išn-īg; 
-    # same level as lemma, but listed in internal references
+types = element types {type+}
+type = element type {
+    element transcription {xsd:string},
+    frequency,
+    occurrences? # occurrences of a specific variant
 }
 
+orthographicVariants = element orthographicVariants {orthographicVariant+}
+orthographicVariant = element orthographicVariant {
+    # the script in which the token is written; lemma language dependent
+    attribute script {"Pahlavi" | "Pazand" | "Inscription" | "Manichean" | "Psalm"| "Arabic"}?,
+    attribute type {"phonetic" | "heterographic"}?,
+    element transliteration {xsd:string},
+    frequency,
+    occurrences? # occurrences of a specific variant
+}
+
+morphology = element morphology {
+    attribute compositionType {"simplex" | "derived" | "compound" | "derivedCompound"}, # shown after the lemma
+    element pos {list {xsd:string+}},  # union of POS (from corpus), shown after the lemma
+    element composition {xsd:string}?, # the morphological analysis of a compound or a derived word
+    # independent of the existence of its constituents in the corpus, e.g. abāyišnīg > abāy-išn-īg; 
+    # same level as lemma, but listed in internal references
+    stem?
+}
+
+stem = element stem {
+    attribute type {"past" | "present"},
+    xsd:string
+    }
+
 # In which centuries a lemma is attested can be retrieved from the metadata of the texts,
-# in which the lemma is attested
+# in which the texts are authored.
 timeline = element timeline {
     attribute century {xsd:int},
     attribute freq {xsd:int} # frequency of the tokens linked to the lemma in the century
 }
 
-hierarchizedMeanings = element hierarchizedMeanings { # one per entry
-    meaningGroup+
-}
-    
-meaningGroup = element meaningGroup { # one or more
-    attribute serialId {xsd:int}, # internal numbering
-    label, # an optional label for the meaning group
-    element semantics {list {semantic}} # an ordered list
+hierarchizedSenses = element hierarchizedSenses { # one per entry
+    semantic+
 }
     
 semantic = element semantic {
     attribute serialId {xsd:int}, # internal numbering
-    morphology, # POS
-
-    semanticCore,
     
-    element morphologicalForms {list {morphologicalForm}},
-    element mwes {list {mwe}}* # alphabetic sorted
+    # reference to the parent node to produce a flexible hierearchy
+    # In MPCD, we will often use only two levels for grouping the senses.
+    # Nevertheless, we would like to be able to produce a hierarchy with
+    # more levels in case of more complex lemmata.
+    node?,
+    semanticCore,
+    element morphologicalForms {morphologicalForm+},
+    element mwes {mwe*} # alphabetic sorted
 }
 
 semanticCore = element semanticCore {
     element sense {xsd:string}, # in the case of term. tech. = its definition
 
     # explanation may include detailed description of the use of the lexeme,
-    # reasons for transcription, prototypical examples
+    # reasons for transcription, and prototypical examples
     element explanation {xsd:string}?,
 
-    element semanticDomain {list {concept}}?, # reference to taxonomy
+    # grammar may include some grammatical explanations about the lemma
+    # including valences
+    element grammar {xsd:string}?,
+
+    # reference to the taxonomy
+    # We will take the liberty to eventually link a sense to more than one concept
+    element semanticDomain {concept+}?,
     termTech?,
 
-    # we decided to eliminate examples
+# we decided to eliminate examples
     # element examples? {list{example}}, # some examples for this sense of the lemma
     occurrences
 }
 
-occurrences = element occurrences {list {attestation}}
-
-form = element morphologicalForm {
-    element feats {list {xsd:string}}, # POS features
-    forms,
-    orthographicVariants*
+node = element node {
+    attribute serialId {xsd:int}, # internal numbering
+    label, # an optional label for the meaning group
+    node? # if NULL the node is a root
 }
 
-variant = element variant {
-    attribute script {"Pahlavi" | "Pazand" | "Inscription" | "Manichean" | "Psalm"| "Arabic"}?,
-    # the script in which the token is written; lemma language dependent
-    attribute type {"phonetic" | "heterographic"}?,
-    element form {xsd:string},
-    element frequency {xsd:int},
-    occurrences?
+occurrences = element occurrences {occurrence+}
+occurrence = element occurrence {
+    attribute tokenId {xsd:IDREF},
+    element uncertain {xsd:boolean} # true if token.uncertain = sense
+}
+
+morphologicalForm = element morphologicalForm {
+    element feats {list {xsd:string}}, # POS features
+    types,
+    orthographicVariants
+}
+
+concept = element concept {
+    attribute conceptID {xsd:IDREF}
 }
 
 mwe = element mwe {
@@ -115,15 +144,6 @@ mwe = element mwe {
     semanticCore
 }
 
-concept = element concept {
-    element conceptID {xsd:IDREF}
-}
-
-attestation = element attestation  {
-    element tokenId {xsd:IDREF},
-    element uncertain {xsd:boolean} # true if token.uncertain = reading or sense
-}
-
 termTech = element terminusTechnicus {
     attribute category {"astr" | "bot" | "econom" | "legal" | "measure" | "med" | "philos" | 
     			"pol" | "purity" | "ritual" | "theol" | "zool"}, 
@@ -131,6 +151,8 @@ termTech = element terminusTechnicus {
     # the literal translation of the term. tech., its definition will be shown in semantics.definition 
     element definition {xsd:string}
 }
+
+literalTranslation = element literalTranslation {xsd:string}
 
 # example = element example { # selected examples from corpus
 #     attribute sentenceId {xsd:string},
@@ -142,20 +164,21 @@ termTech = element terminusTechnicus {
 internalReferences = element internalReferences {iRef+}
 
 iRef = element iRef {
-    attribute type {"synonym" | "antonym" | "homonym" | "constituent" | "prefix" | "suffix"},
+    attribute type {"synonym" | "antonym" | "homonym" | "base" | "constituent" | "prefix" | "suffix"},
     # "constituent of" is generated automatically based on "constituent",
     # e.g. for a-sar-rōšnīh we have constituent = a, sar, rōšnīh.
     # From all of these lemmata, we have a link to a-sar-rōšnīh.
-    element refId {xsd:IDREF} # ref to another entry
+    # base = derivations
+    # constituent = compounds
+    attribute refId {xsd:IDREF} # ref to another entry
 }
-
 
 equivalents = element equivalents {
     # from token.Avestan of all tokens linked to the lemma
     element avEquivalents {list{xsd:string}},
     element mpTranslations {list{xsd:string}} # MP translations of all Av. equivalents
-    # a) Send every avEquivalents from the first list to CAB to receive their lemmata
-    # b) Retrieve the conjugated/declinated forms of every Av. lemma from CAB
+    # a) Send every avEquivalents from the first list to CAB to retrieve their lemmata
+    # b) Retrieve the inflected forms of every Av. lemma from CAB
     # c) Find the lemmata of all MP tokens translating these Av. forms in MPCD corpus
 }
 
@@ -164,13 +187,14 @@ etymology = element etymology {
 			"loanTranslationFrom"},
     language,
     element lexeme {xsd:string},
-    element url {xsd:anyURI}?,
+    element url {xsd:anyURI}?, # e.g. if the word originates in Greek, a link to Perseus
     comment?
 }
 
 biblioEntry = element biblioEntry {
     attribute type {"writing" | "grammar" | "sense" | "etymology"},
-    element senseId {xsd:ID}?, # serialId of sense
+    attribute senseId {xsd:ID}?, # serialId of sense
     element bibRef {xsd:string} # ref to the bibliographic database
-} 
+}
+
 comment = element comment {text}
