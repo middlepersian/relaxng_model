@@ -124,8 +124,8 @@ node = element node {
 occurrences = element occurrences {occurrence+}
 occurrence = element occurrence {
     attribute tokenId {xsd:IDREF},
-    attribute uncertain {xsd:boolean},
-    xsd:string # true if token.uncertain = sense
+    attribute uncertain {xsd:boolean}, # true if token.uncertain = sense
+    xsd:string
 }
 
 morphologicalForm = element morphologicalForm {
