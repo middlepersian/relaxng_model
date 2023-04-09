@@ -52,7 +52,7 @@
   <xs:element name="headword" type="xs:string"/>
   <xs:element name="label" type="xs:string"/>
   <xs:element name="language" type="xs:string"/>
-  <!-- ISO 639-2 three-letter code -->
+  <!-- ISO 639-2 three-letter, default pal = Pahlavi -->
   <xs:element name="frequency" type="xs:int"/>
   <xs:element name="types">
     <xs:complexType>
@@ -236,13 +236,14 @@
   </xs:element>
   <xs:element name="occurrence">
     <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="uncertain"/>
-      </xs:sequence>
-      <xs:attribute name="tokenId" use="required" type="xs:IDREF"/>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="tokenId" use="required" type="xs:IDREF"/>
+          <xs:attribute name="uncertain" use="required" type="xs:boolean"/>
+        </xs:extension>
+      </xs:simpleContent>
     </xs:complexType>
   </xs:element>
-  <xs:element name="uncertain" type="xs:boolean"/>
   <xs:element name="morphologicalForm">
     <xs:complexType>
       <xs:sequence>
