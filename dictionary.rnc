@@ -36,7 +36,7 @@ entry = element entry {
 
 headword = element headword {xsd:string}
 label = element label {xsd:string}
-language = element language {xsd:string} # ISO 639-2 three-letter code
+language = element language {xsd:string} # ISO 639-2 three-letter, default pal = Pahlavi
 frequency = element frequency {xsd:int}
 
 types = element types {type+}
@@ -124,7 +124,8 @@ node = element node {
 occurrences = element occurrences {occurrence+}
 occurrence = element occurrence {
     attribute tokenId {xsd:IDREF},
-    element uncertain {xsd:boolean} # true if token.uncertain = sense
+    attribute uncertain {xsd:boolean}, # true if token.uncertain = sense
+    xsd:string
 }
 
 morphologicalForm = element morphologicalForm {
