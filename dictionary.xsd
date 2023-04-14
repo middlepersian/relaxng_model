@@ -48,12 +48,13 @@
     </xs:complexType>
   </xs:element>
   <xs:element name="lemma" type="xs:string"/>
-  <xs:element name="relativeFrequency" type="xs:int"/>
+  <xs:element name="relativeFrequency" type="xs:string"/>
   <xs:element name="headword" type="xs:string"/>
   <xs:element name="label" type="xs:string"/>
   <xs:element name="language" type="xs:string"/>
   <!-- ISO 639-2 three-letter, default pal = Pahlavi -->
-  <xs:element name="frequency" type="xs:int"/>
+  <xs:element name="frequency" type="xs:string"/>
+  <!-- String to accomodate decimals and special values -->
   <xs:element name="types">
     <xs:complexType>
       <xs:sequence>
@@ -113,7 +114,7 @@
       <xs:sequence>
         <xs:element ref="pos"/>
         <xs:element minOccurs="0" ref="composition"/>
-        <xs:element minOccurs="0" ref="stem"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="stem"/>
       </xs:sequence>
       <xs:attribute name="compositionType" use="required">
         <xs:simpleType>
@@ -127,6 +128,7 @@
       </xs:attribute>
     </xs:complexType>
   </xs:element>
+  <xs:element name="composition" type="xs:string"/>
   <xs:element name="pos">
     <xs:simpleType>
       <xs:restriction>
@@ -137,7 +139,7 @@
       </xs:restriction>
     </xs:simpleType>
   </xs:element>
-  <xs:element name="composition" type="xs:string"/>
+  <!-- Retrieved from corpus -->
   <xs:element name="stem">
     <xs:complexType>
       <xs:simpleContent>
@@ -161,7 +163,7 @@
   <xs:element name="timeline">
     <xs:complexType>
       <xs:attribute name="century" use="required" type="xs:int"/>
-      <xs:attribute name="freq" use="required" type="xs:int"/>
+      <xs:attribute name="freq" use="required" type="xs:decimal"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="hierarchizedSenses">
@@ -176,6 +178,7 @@
       <xs:sequence>
         <xs:element minOccurs="0" ref="node"/>
         <xs:element ref="semanticCore"/>
+        <xs:element minOccurs="0" ref="pos"/>
         <xs:element ref="morphologicalForms"/>
         <xs:element ref="mwes"/>
       </xs:sequence>
@@ -240,6 +243,7 @@
         <xs:extension base="xs:string">
           <xs:attribute name="tokenId" use="required" type="xs:IDREF"/>
           <xs:attribute name="uncertain" use="required" type="xs:boolean"/>
+          <xs:attribute name="translation" type="xs:string"/>
         </xs:extension>
       </xs:simpleContent>
     </xs:complexType>
@@ -342,8 +346,8 @@
   <xs:element name="equivalents">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="avEquivalents"/>
-        <xs:element ref="mpTranslations"/>
+        <xs:element minOccurs="0" ref="avEquivalents"/>
+        <xs:element minOccurs="0" ref="mpTranslations"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
